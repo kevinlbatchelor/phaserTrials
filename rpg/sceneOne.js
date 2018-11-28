@@ -15,7 +15,7 @@ export default class sceneOne extends Phaser.Scene {
         //  https://labs.phaser.io/view.html?src=src/animation/texture%20atlas%20animation.js
         // If you don't use an atlas, you can do the same thing with a spritesheet, see:
         //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
-        this.load.atlas('atlas', 'atlas.png', 'atlas.json');
+        this.load.atlas('atlas', 'assets/atlas.png', 'assets/atlas.json');
     }
 
     create() {

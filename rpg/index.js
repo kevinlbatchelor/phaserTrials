@@ -1,5 +1,5 @@
-import sceneTwo from './sceneTwo.js'
-import sceneOne from './sceneOne.js'
+import sceneTwo from './sceneTwo.js';
+import sceneOne from './sceneOne.js';
 
 window.onload = function () {
     let config = {
@@ -17,6 +17,6 @@ window.onload = function () {
         scene: [sceneOne, sceneTwo]
     };
 
-     new Phaser.Game(config);
+    new Phaser.Game(config);
     window.focus();
 };
