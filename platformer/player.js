@@ -47,6 +47,8 @@ export default class Player {
         const onGround = sprite.body.blocked.down;
         const acceleration = onGround ? 600 : 200;
 
+        this.isJumping = keys.up.isDown || keys.w.isDown;
+
         // Apply horizontal acceleration when left/a or right/d are applied
         if (keys.left.isDown || keys.a.isDown) {
             sprite.setAccelerationX(-acceleration);
