@@ -28,7 +28,10 @@ export default class PlatformerScene extends Phaser.Scene {
 
         map.createDynamicLayer('Background', tiles);
         this.groundLayer = map.createDynamicLayer('Ground', tiles);
-        map.createDynamicLayer('Foreground', tiles);
+        this.foregroundLayer = map.createDynamicLayer('Foreground', tiles);
+        this.platformLayer = map.createDynamicLayer('Platform', tiles);
+
+        this.foregroundLayer.setDepth(10);
 
         // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
         const spawnPoint = map.findObject('Objects', obj => obj.name === 'Spawn Point');
@@ -37,6 +40,7 @@ export default class PlatformerScene extends Phaser.Scene {
         // Collide the player against the ground layer - here we are grabbing the sprite property from
         // the player (since the Player class is not a Phaser.Sprite).
         this.groundLayer.setCollisionByProperty({ collides: true });
+        this.platformLayer.setCollisionByProperty({ collides: true });
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
 
         // The map contains a row of spikes. The spike only take a small sliver of the tile graphic, so
@@ -78,6 +82,13 @@ export default class PlatformerScene extends Phaser.Scene {
         if (this.isPlayerDead) return;
 
         this.player.update();
+
+        if (this.player.isJumping && this.platformCollider) {
+            this.platformCollider.destroy();
+            this.platformCollider = null;
+        } else if (!this.player.isJumping && !this.platformCollider) {
+            this.platformCollider = this.physics.world.addCollider(this.player.sprite, this.platformLayer);
+        }
 
         // Add a colliding tile at the mouse position
         const pointer = this.input.activePointer;
