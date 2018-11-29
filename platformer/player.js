@@ -10,28 +10,27 @@ export default class Player {
         // Create the animations we need from the player spritesheet
         const anims = scene.anims;
         anims.create({
-            key: "player-idle",
-            frames: anims.generateFrameNumbers("player", { start: 0, end: 3 }),
+            key: 'player-idle',
+            frames: anims.generateFrameNumbers('player', { start: 0, end: 3 }),
             frameRate: 3,
             repeat: -1
         });
         anims.create({
-            key: "player-run",
-            frames: anims.generateFrameNumbers("player", { start: 8, end: 15 }),
+            key: 'player-run',
+            frames: anims.generateFrameNumbers('player', { start: 8, end: 15 }),
             frameRate: 12,
             repeat: -1
         });
 
         // Create the physics-based sprite that we will move around and animate
         this.sprite = scene.physics.add
-            .sprite(x, y, "player", 0)
+            .sprite(x, y, 'player', 0)
             .setDrag(1000, 0)
             .setMaxVelocity(300, 400);
 
         // Track the arrow keys & WASD
         const { LEFT, RIGHT, UP, W, A, D } = Phaser.Input.Keyboard.KeyCodes;
-        console.log(Phaser.Input.Keyboard.KeyCodes);
-        console.log(LEFT);
+
         this.keys = scene.input.keyboard.addKeys({
             left: LEFT,
             right: RIGHT,
@@ -68,11 +67,11 @@ export default class Player {
 
         // Update the animation/texture based on the state of the player
         if (onGround) {
-            if (sprite.body.velocity.x !== 0) sprite.anims.play("player-run", true);
-            else sprite.anims.play("player-idle", true);
+            if (sprite.body.velocity.x !== 0) sprite.anims.play('player-run', true);
+            else sprite.anims.play('player-idle', true);
         } else {
             sprite.anims.stop();
-            sprite.setTexture("player", 10);
+            sprite.setTexture('player', 10);
         }
     }
 
