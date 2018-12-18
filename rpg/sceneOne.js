@@ -8,14 +8,14 @@ export default class sceneOne extends Phaser.Scene {
     preload() {
         this.load.image('tiles', 'assets/town.png');
         this.load.image('diamond', 'assets/diamond.png');
-        this.load.tilemapTiledJSON('map', 'assets/town.json');
+        this.load.tilemapTiledJSON('map', 'assets/town-teacherds.json');
 
         // An atlas is a way to pack multiple images together into one texture. I'm using it to load all
         // the player animations (walking left, walking right, etc.) in one image. For more info see:
         //  https://www.joshmorony.com/how-to-create-animations-in-phaser-with-a-texture-atlas/
         // If you don't use an atlas, you can do the same thing with a spritesheet, see:
         //  https://labs.phaser.io/view.html?src=src/animation/single%20sprite%20sheet.js
-        this.load.atlas('atlas', 'assets/atlas.png', 'assets/atlas.json');
+        this.load.atlas('atlas', 'assets/atlas-elf.png', 'assets/atlas.json');
     }
 
     create() {

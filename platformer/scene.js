@@ -7,7 +7,7 @@ export default class PlatformerScene extends Phaser.Scene {
     preload() {
         this.load.spritesheet(
             'player',
-            'assets/spritesheets/0x72-industrial-player-32px-extruded.png',
+            'assets/spritesheets/rouge-sprite2.png',
             {
                 frameWidth: 32,
                 frameHeight: 32,
@@ -33,8 +33,11 @@ export default class PlatformerScene extends Phaser.Scene {
 
         this.foregroundLayer.setDepth(10);
 
+        let findFunction = (obj) => {
+            return obj.name === 'Spawn Point';
+        };
         // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
-        const spawnPoint = map.findObject('Objects', obj => obj.name === 'Spawn Point');
+        const spawnPoint = map.findObject('Objects', findFunction);
         this.player = new Player(this, spawnPoint.x, spawnPoint.y);
 
         // Collide the player against the ground layer - here we are grabbing the sprite property from
@@ -46,7 +49,7 @@ export default class PlatformerScene extends Phaser.Scene {
         // The map contains a row of spikes. The spike only take a small sliver of the tile graphic, so
         // if we let arcade physics treat the spikes as colliding, the player will collide while the
         // sprite is hovering over the spikes. We'll remove the spike tiles and turn them into sprites
-        // so that we give them a more fitting hitbox.
+        // so that we give them a mor1e fitting hitbox.
         this.spikeGroup = this.physics.add.staticGroup();
         this.groundLayer.forEachTile((tile) => {
             if (tile.properties.isSpike) {
