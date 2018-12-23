@@ -4,7 +4,6 @@ export default class Item {
         scene[group] = scene.physics.add.staticGroup();
         scene.groundLayer.forEachTile((tile) => {
             if (tile.properties[tileTag]) {
-                console.log('fired');
                 const item = scene[group].create(tile.getCenterX(), tile.getCenterY(), spriteTag);
 
                 // The map may have items rotated in Tiled (z key), so parse out that angle to the correct body placement

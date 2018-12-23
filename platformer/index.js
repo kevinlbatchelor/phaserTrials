@@ -2,8 +2,8 @@ import Scene from "./scene.js";
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1480,
+    height: 900,
     parent: "game-container",
     pixelArt: false,
     backgroundColor: "#1d212d",
