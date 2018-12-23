@@ -42,7 +42,7 @@ export default class Player {
     }
 
     update() {
-        const speed = 175;
+        const speed = 500;
         const prevVelocity = this.sprite.body.velocity.clone();
 
         // Stop any previous movement from the last frame
