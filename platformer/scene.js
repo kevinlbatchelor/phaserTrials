@@ -18,6 +18,7 @@ export default class PlatformerScene extends Phaser.Scene {
         );
         this.load.image('spike', 'assets/images/spike.png');
         this.load.image('potion', 'assets/images/potion.png');
+        this.load.image('potion', 'assets/images/chest.png');
         this.load.image('tiles', 'assets/tilesets/tile-set-rouge.png');
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/platformer-rouge2.json');
     }
@@ -25,7 +26,7 @@ export default class PlatformerScene extends Phaser.Scene {
     create() {
         this.score = 0;
         this.scoreText = this.add
-            .text(16, 16, 'Potions:' + this.score, {
+            .text(40, 10, 'Click to use potions:' + this.score, {
                 font: '18px monospace',
                 fill: '#ffffff',
                 padding: { x: 32, y: 32 }
@@ -59,6 +60,7 @@ export default class PlatformerScene extends Phaser.Scene {
 
         new Item(this, 'spike', 'spikeGroup', 'isSpike');
         new Item(this, 'potion', 'potionGroup', 'isPotion');
+        new Item(this, 'chest', 'chestGroup', 'isChest');
 
         this.cameras.main.startFollow(this.player.sprite);
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -119,7 +121,7 @@ export default class PlatformerScene extends Phaser.Scene {
 }
 
 const draw = _.throttle((scene, worldPoint) => {
-    const tile = scene.groundLayer.putTileAtWorldXY(344, worldPoint.x, worldPoint.y);
+    const tile = scene.groundLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
     tile.setCollision(true);
     scene.score = scene.score - 1;
     scene.scoreText.setText('Potions:' + scene.score);
