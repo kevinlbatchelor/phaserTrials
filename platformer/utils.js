@@ -40,11 +40,12 @@ export function loadAssets(scene, path) {
     scene.load.image('potion', 'assets/images/potion.png');
     scene.load.image('chest', 'assets/images/chest.png');
     scene.load.image('tiles', 'assets/tilesets/tile-set-rouge.png');
-    scene.load.tilemapTiledJSON('map', 'assets/tilemaps/' + path);
+    scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
 
-export function loadMapsAndSprites(scene) {
-    const map = scene.make.tilemap({ key: 'map' });
+export function loadMapsAndSprites(scene, path) {
+    console.log(path);
+    const map = scene.make.tilemap({ key: path });
     const tiles = map.addTilesetImage('tile-set-rouge', 'tiles');
     map.createDynamicLayer('Background', tiles);
     scene.groundLayer = map.createDynamicLayer('Ground', tiles);

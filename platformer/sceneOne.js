@@ -1,11 +1,12 @@
 import { jump, death, loadAssets, loadMapsAndSprites } from './utils.js';
 
-/**
- * A class that extends Phaser.Scene and wraps up the core logic for the platformer level.
- */
-export default class PlatformerScene extends Phaser.Scene {
+export default class SceneOne extends Phaser.Scene {
+    constructor() {
+        super('SceneOne');
+    }
+
     preload() {
-        loadAssets(this, 'platformer-rouge2.json');
+        loadAssets(this, 'platformer-rouge');
     }
 
     create() {
@@ -16,7 +17,7 @@ export default class PlatformerScene extends Phaser.Scene {
             padding: { x: 32, y: 32 }
         }).setScrollFactor(0).setDepth(30);
         this.isPlayerDead = false;
-        loadMapsAndSprites(this);
+        loadMapsAndSprites(this, 'platformer-rouge');
     }
 
     update(time, delta) {

@@ -1,19 +1,23 @@
-import Scene from "./scene.js";
+import SceneTwo from './sceneTwo.js';
+import SceneOne from './sceneOne.js';
 
-const config = {
-    type: Phaser.AUTO,
-    width: 1480,
-    height: 800,
-    parent: "game-container",
-    pixelArt: false,
-    backgroundColor: "#1d212d",
-    scene: Scene,
-    physics: {
-        default: "arcade",
-        arcade: {
-            gravity: { y: 1000 }
-        }
-    }
+window.onload = function () {
+    let config = {
+        type: Phaser.AUTO,
+        width: 1480,
+        height: 800,
+        parent: 'game-container',
+        pixelArt: false,
+        backgroundColor: '#1d212d',
+        physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 1000 }
+            }
+        },
+        scene: [SceneOne, SceneTwo]
+    };
+
+    new Phaser.Game(config);
+    window.focus();
 };
-
-const game = new Phaser.Game(config);
