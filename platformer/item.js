@@ -1,8 +1,8 @@
 export default class Item {
-    constructor(scene, spriteTag, group, tileTag) {
+    constructor(scene, spriteTag, group, tileTag, layer = 'groundLayer') {
 
         scene[group] = scene.physics.add.staticGroup();
-        scene.groundLayer.forEachTile((tile) => {
+        scene[layer].forEachTile((tile) => {
             if (tile.properties[tileTag]) {
                 const item = scene[group].create(tile.getCenterX(), tile.getCenterY(), spriteTag);
 
@@ -12,7 +12,7 @@ export default class Item {
                 else if (item.angle === -90) item.body.setSize(6, 32).setOffset(26, 0);
                 else if (item.angle === 90) item.body.setSize(6, 32).setOffset(0, 0);
 
-                scene.groundLayer.removeTileAt(tile.x, tile.y);
+                scene[layer].removeTileAt(tile.x, tile.y);
             }
         });
     }

@@ -22,6 +22,19 @@ export default class Player {
             repeat: -1
         });
 
+        anims.create({
+            key: 'jump-up',
+            frames: anims.generateFrameNumbers('player', { start: 16, end: 16 }),
+            frameRate: 12,
+            repeat: -1
+        });
+        anims.create({
+            key: 'jump-down',
+            frames: anims.generateFrameNumbers('player', { start: 17, end: 17 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
         // Create the physics-based sprite that we will move around and animate
         this.sprite = scene.physics.add
             .sprite(x, y, 'player', 0)
@@ -29,7 +42,7 @@ export default class Player {
             .setMaxVelocity(300, 400);
 
         // Track the arrow keys & WASD
-        const { LEFT, RIGHT, UP, W, A, D } = Phaser.Input.Keyboard.KeyCodes;
+        const { LEFT, RIGHT, UP, W, A, D, SPACE } = Phaser.Input.Keyboard.KeyCodes;
 
         this.keys = scene.input.keyboard.addKeys({
             left: LEFT,
@@ -37,7 +50,8 @@ export default class Player {
             up: UP,
             w: W,
             a: A,
-            d: D
+            d: D,
+            space: SPACE
         });
     }
 
@@ -47,7 +61,7 @@ export default class Player {
         const onGround = sprite.body.blocked.down;
         const acceleration = onGround ? 600 : 200;
 
-        this.isJumping = keys.up.isDown || keys.w.isDown;
+        this.isJumping = keys.space.isDown;
 
         // Apply horizontal acceleration when left/a or right/d are applied
         if (keys.left.isDown || keys.a.isDown) {
@@ -63,14 +77,20 @@ export default class Player {
         }
 
         // Only allow the player to jump if they are on the ground
-        if (onGround && (keys.up.isDown || keys.w.isDown)) {
+        if (onGround && (keys.space.isDown)) {
+            sprite.anims.play('jump', true);
             sprite.setVelocityY(-500);
         }
 
         // Update the animation/texture based on the state of the player
         if (onGround) {
-            if (sprite.body.velocity.x !== 0) sprite.anims.play('player-run', true);
-            else sprite.anims.play('player-idle', true);
+            if (sprite.body.velocity.x !== 0) {
+                sprite.anims.play('player-run', true);
+            } else sprite.anims.play('player-idle', true);
+        } else if (this.isJumping || sprite.body.velocity.y < 0) {
+            sprite.anims.play('jump-up', true);
+        } else if (sprite.body.velocity.y > 0) {
+            sprite.anims.play('jump-down', true);
         } else {
             sprite.anims.stop();
             sprite.setTexture('player', 10);

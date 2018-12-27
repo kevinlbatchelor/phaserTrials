@@ -1,25 +1,23 @@
 import { jump, death, loadAssets, loadMapsAndSprites } from './utils.js';
-import Item from './item.js';
 
-export default class SceneOne extends Phaser.Scene {
+export default class Shop extends Phaser.Scene {
     constructor() {
-        super('SceneOne');
+        super('Shop');
     }
 
     preload() {
-        loadAssets(this, 'platformer-rouge');
+        loadAssets(this, 'shop');
     }
 
     create() {
         this.score = 0;
-        this.scoreText = this.add.text(40, 10, 'Click to use potions:' + this.score, {
+        this.scoreText = this.add.text(40, 40, 'I see you are an alchemist, Are you here to buy or sell? ', {
             font: '18px monospace',
             fill: '#ffffff',
             padding: { x: 32, y: 32 }
         }).setScrollFactor(0).setDepth(30);
         this.isPlayerDead = false;
-        loadMapsAndSprites(this, 'platformer-rouge');
-        new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
+        loadMapsAndSprites(this, 'shop');
     }
 
     update(time, delta) {
@@ -44,12 +42,6 @@ export default class SceneOne extends Phaser.Scene {
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
             this.scene.start('SceneTwo');
         });
-
-        this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
-            console.log('hi');
-            this.scene.start('Shop');
-        });
-
         death(this);
     }
 }

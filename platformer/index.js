@@ -1,4 +1,5 @@
 import SceneTwo from './sceneTwo.js';
+import Shop from './shop.js';
 import SceneOne from './sceneOne.js';
 
 window.onload = function () {
@@ -15,7 +16,7 @@ window.onload = function () {
                 gravity: { y: 1000 }
             }
         },
-        scene: [SceneOne, SceneTwo]
+        scene: [SceneOne, SceneTwo, Shop]
     };
 
     new Phaser.Game(config);

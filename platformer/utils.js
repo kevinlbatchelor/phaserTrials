@@ -21,7 +21,7 @@ export function jump(scene) {
         scene.platformCollider.destroy();
         scene.platformCollider = null;
     } else if (!scene.player.isJumping && !scene.platformCollider) {
-        scene.platformCollider = scene.physics.world.addCollider(scene.player.sprite, scene.platformLayer);
+        scene.platformCollider = scene.physics.world.addCollider(scene.player.sprite, scene.groundLayer);
     }
 }
 
@@ -36,6 +36,7 @@ export function loadAssets(scene, path) {
             spacing: 2
         }
     );
+    scene.load.image('door', 'assets/images/door.png');
     scene.load.image('spike', 'assets/images/spike.png');
     scene.load.image('potion', 'assets/images/potion.png');
     scene.load.image('chest', 'assets/images/chest.png');
@@ -48,9 +49,9 @@ export function loadMapsAndSprites(scene, path) {
     const map = scene.make.tilemap({ key: path });
     const tiles = map.addTilesetImage('tile-set-rouge', 'tiles');
     map.createDynamicLayer('Background', tiles);
+    scene.doorLayer = map.createDynamicLayer('Doors', tiles);
     scene.groundLayer = map.createDynamicLayer('Ground', tiles);
     scene.foregroundLayer = map.createDynamicLayer('Foreground', tiles);
-    scene.platformLayer = map.createDynamicLayer('Platform', tiles);
     scene.foregroundLayer.setDepth(10);
     let findFunction = (obj) => {
         return obj.name === 'Spawn Point';
@@ -59,10 +60,10 @@ export function loadMapsAndSprites(scene, path) {
     const spawnPoint = map.findObject('Objects', findFunction);
     scene.player = new Player(scene, spawnPoint.x, spawnPoint.y);
 
+    scene.doorLayer.setCollisionByProperty({ collides: true });
+    scene.physics.world.addCollider(scene.player.sprite, scene.doorLayer);
     // Collide the player against the ground layer - here we are grabbing the sprite property from the player (since the Player class is not a Phaser.Sprite).
     scene.groundLayer.setCollisionByProperty({ collides: true });
-    scene.platformLayer.setCollisionByProperty({ collides: true });
-    scene.physics.world.addCollider(scene.player.sprite, scene.groundLayer);
 
     new Item(scene, 'spike', 'spikeGroup', 'isSpike');
     new Item(scene, 'potion', 'potionGroup', 'isPotion');
@@ -70,13 +71,13 @@ export function loadMapsAndSprites(scene, path) {
 
     scene.cameras.main.startFollow(scene.player.sprite);
     scene.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    //debug
+    // debug
     // const graphics = scene.add
     //     .graphics()
     //     .setAlpha(0.75)
     //     .setDepth(20);
     //
-    // scene.groundLayer.renderDebug(graphics, {
+    // scene.doorLayer.renderDebug(graphics, {
     //     tileColor: null, // Color of non-colliding tiles
     //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
     //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges

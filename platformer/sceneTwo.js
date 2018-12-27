@@ -30,7 +30,6 @@ export default class SceneTwo extends Phaser.Scene {
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
         if (pointer.isDown && this.score > 0) {
-            console.log(_.get(pointer, 'isDown'));
             draw(this, worldPoint);
         }
 
