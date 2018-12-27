@@ -4,11 +4,11 @@ import SceneOne from './sceneOne.js';
 window.onload = function () {
     let config = {
         type: Phaser.AUTO,
-        width: 1480,
-        height: 800,
+        width: 1470,
+        height: 700,
         parent: 'game-container',
         pixelArt: false,
-        backgroundColor: '#1d212d',
+        backgroundColor: '#000000',
         physics: {
             default: 'arcade',
             arcade: {
