@@ -48,7 +48,6 @@ export default class SceneTwo extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
-            console.log('hi');
             this.scene.start('Shop');
         });
 

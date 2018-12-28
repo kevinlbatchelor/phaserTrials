@@ -50,7 +50,10 @@ export default class SceneOne extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
-            this.scene.start('Shop');
+            if(this.player.isEntering){
+                this.scene.start('Shop')
+            }
+            this.scoreText.setText('Alchemist shop. Enter? Y or N');
         });
 
         death(this);

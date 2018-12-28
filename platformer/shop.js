@@ -1,4 +1,5 @@
-import { jump, death, loadAssets, loadMapsAndSprites } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, findFunction } from './utils.js';
+import Alchemist from './alchemist.js';
 
 export default class Shop extends Phaser.Scene {
     constructor() {
@@ -11,15 +12,18 @@ export default class Shop extends Phaser.Scene {
 
     create() {
         this.score = 0;
-        this.scoreText = this.add.text(40, 40, 'I see you are an alchemist, Are you here to buy or sell? ', {
+        this.scoreText = this.add.text(40, 40, '', {
             font: '18px monospace',
             fill: '#ffffff',
             padding: { x: 32, y: 32 }
         }).setScrollFactor(0).setDepth(30);
         this.isPlayerDead = false;
-        loadMapsAndSprites(this, 'shop');
-        this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+        let map = loadMapsAndSprites(this, 'shop');
 
+        const spawnPoint = map.findObject('Objects', findFunction('Alchemist Spawn'));
+        this.alchemist = new Alchemist(this, spawnPoint.x, spawnPoint.y);
+        this.physics.world.addCollider(this.alchemist.sprite, this.groundLayer);
+        this.physics.world.addCollider(this.player.sprite, this.groundLayer);
         this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 
@@ -27,6 +31,7 @@ export default class Shop extends Phaser.Scene {
         if (this.isPlayerDead) return;
         this.spider.update();
         this.player.update();
+        this.alchemist.update();
         jump(this);
 
         // Add a colliding tile at the mouse position
@@ -41,6 +46,14 @@ export default class Shop extends Phaser.Scene {
             this.score = this.score + 1;
             this.scoreText.setText('Potions:' + this.score);
             potion.disableBody(true, true);
+        });
+
+        this.alchemist.isSpeaking = false;
+
+        this.scoreText.setText('');
+        this.physics.world.overlap(this.player.sprite, this.alchemist.sprite, (player, alchemist) => {
+            this.alchemist.isSpeaking = true;
+            this.scoreText.setText('I see you are an alchemist, Are you here to buy or sell?');
         });
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {

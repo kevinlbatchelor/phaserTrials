@@ -1,32 +1,41 @@
 let turn = true;
-export default class Spider {
+export default class Alchemist {
     constructor(scene, x, y) {
         this.scene = scene;
+        this.isSpeaking = false;
 
         const anims = scene.anims;
         anims.create({
-            key: 'spider-idle',
-            frames: anims.generateFrameNumbers('npc', { start: 8, end: 8 }),
+            key: 'alchemist-idle',
+            frames: anims.generateFrameNumbers('npc', { start: 0, end: 0 }),
             frameRate: 3,
             repeat: -1
         });
         anims.create({
-            key: 'spider-run',
-            frames: anims.generateFrameNumbers('npc', { start: 8, end: 10 }),
+            key: 'alchemist-run',
+            frames: anims.generateFrameNumbers('npc', { start: 0, end: 3 }),
             frameRate: 6,
             repeat: -1
         });
 
         this.sprite = scene.physics.add
-            .sprite(x, y, 'spider', 0)
+            .sprite(x, y, 'alchemist', 0)
             .setDrag(1000, 0)
-            .setMaxVelocity(50, 1000);
+            .setMaxVelocity(20, 500);
     }
 
     update() {
+        let acceleration;
         const sprite = this.sprite;
         const onGround = sprite.body.blocked.down;
-        const acceleration = onGround ? 50 : 200;
+        if (onGround && !this.isSpeaking) {
+            acceleration = 20;
+        } else if (this.isSpeaking) {
+
+            acceleration = 0;
+        } else {
+            acceleration = 1000;
+        }
 
         // Apply horizontal acceleration when left/a or right/d are applied
         if (!turn) {
@@ -48,8 +57,8 @@ export default class Spider {
 
         if (onGround) {
             if (sprite.body.velocity.x !== 0) {
-                sprite.anims.play('spider-run', true);
-            } else sprite.anims.play('spider-idle', true);
+                sprite.anims.play('alchemist-run', true);
+            } else sprite.anims.play('alchemist-idle', true);
         } else {
             sprite.anims.stop();
             sprite.setTexture('npc', 10);

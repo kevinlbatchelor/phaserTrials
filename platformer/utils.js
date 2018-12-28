@@ -40,7 +40,7 @@ export function loadAssets(scene, path) {
         }
     );
     scene.load.spritesheet(
-        'spider',
+        'npc',
         'assets/spritesheets/alchemist.png',
         {
             frameWidth: 32,
@@ -73,12 +73,10 @@ export function loadMapsAndSprites(scene, path) {
     scene.player = new Player(scene, spawnPoint.x, spawnPoint.y);
     scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
 
-    scene.doorLayer.setCollisionByProperty({ collides: true });
-    scene.physics.world.addCollider(scene.player.sprite, scene.doorLayer);
-    scene.physics.world.addCollider(scene.spider.sprite, scene.doorLayer);
 
     // Collide the player against the ground layer - here we are grabbing the sprite property from the player (since the Player class is not a Phaser.Sprite).
     scene.groundLayer.setCollisionByProperty({ collides: true });
+    scene.doorLayer.setCollisionByProperty({ collides: true });
 
     new Item(scene, 'spike', 'spikeGroup', 'isSpike');
     new Item(scene, 'potion', 'potionGroup', 'isPotion');
@@ -88,6 +86,7 @@ export function loadMapsAndSprites(scene, path) {
     scene.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
     debug(scene);
+    return map;
 }
 
 function debug(scene) {
@@ -105,8 +104,8 @@ function debug(scene) {
     });
 }
 
-function findFunction(name) {
+export function findFunction(name) {
     return (obj) => {
         return obj.name === name;
     };
-};
+}

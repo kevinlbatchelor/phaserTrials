@@ -38,7 +38,7 @@ export default class Player {
             .setMaxVelocity(300, 400);
 
         // Track the arrow keys & WASD
-        const { LEFT, RIGHT, UP, W, A, D, SPACE, Q } = Phaser.Input.Keyboard.KeyCodes;
+        const { LEFT, RIGHT, UP, W, A, D, SPACE, Y } = Phaser.Input.Keyboard.KeyCodes;
 
         this.keys = scene.input.keyboard.addKeys({
             left: LEFT,
@@ -48,7 +48,7 @@ export default class Player {
             a: A,
             d: D,
             space: SPACE,
-            q: Q
+            y: Y
         });
     }
 
@@ -59,6 +59,7 @@ export default class Player {
         const acceleration = onGround ? 600 : 200;
 
         this.isJumping = keys.space.isDown;
+        this.isEntering =keys.y.isDown;
 
         // Apply horizontal acceleration when left/a or right/d are applied
         if (keys.left.isDown || keys.a.isDown) {
