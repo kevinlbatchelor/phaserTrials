@@ -18,12 +18,15 @@ export default class Shop extends Phaser.Scene {
         }).setScrollFactor(0).setDepth(30);
         this.isPlayerDead = false;
         loadMapsAndSprites(this, 'shop');
+        this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+
+        this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
         this.player.update();
-        jump(this);
+        // jump(this);
 
         // Add a colliding tile at the mouse position
         const pointer = this.input.activePointer;

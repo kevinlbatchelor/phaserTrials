@@ -1,4 +1,5 @@
 import Player from './player.js';
+import Spider from './spider.js';
 import Item from './item.js';
 
 export function death(scene) {
@@ -21,7 +22,7 @@ export function jump(scene) {
         scene.platformCollider.destroy();
         scene.platformCollider = null;
     } else if (!scene.player.isJumping && !scene.platformCollider) {
-        scene.platformCollider = scene.physics.world.addCollider(scene.player.sprite, scene.groundLayer);
+        scene.platformCollider = scene.physics.world.addCollider(scene.player.sprite, scene.platformLayer);
     }
 }
 
@@ -29,6 +30,16 @@ export function loadAssets(scene, path) {
     scene.load.spritesheet(
         'player',
         'assets/spritesheets/rouge-sprite2.png',
+        {
+            frameWidth: 32,
+            frameHeight: 32,
+            margin: 1,
+            spacing: 2
+        }
+    );
+    scene.load.spritesheet(
+        'spider',
+        'assets/spritesheets/alchemist.png',
         {
             frameWidth: 32,
             frameHeight: 32,
@@ -45,12 +56,12 @@ export function loadAssets(scene, path) {
 }
 
 export function loadMapsAndSprites(scene, path) {
-    console.log(path);
     const map = scene.make.tilemap({ key: path });
     const tiles = map.addTilesetImage('tile-set-rouge', 'tiles');
     map.createDynamicLayer('Background', tiles);
     scene.doorLayer = map.createDynamicLayer('Doors', tiles);
     scene.groundLayer = map.createDynamicLayer('Ground', tiles);
+    scene.platformLayer = map.createDynamicLayer('PlatformLayer', tiles);
     scene.foregroundLayer = map.createDynamicLayer('Foreground', tiles);
     scene.foregroundLayer.setDepth(10);
     let findFunction = (obj) => {
@@ -59,9 +70,12 @@ export function loadMapsAndSprites(scene, path) {
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction);
     scene.player = new Player(scene, spawnPoint.x, spawnPoint.y);
+    scene.spider = new Spider(scene, spawnPoint.x+20, spawnPoint.y+20);
 
     scene.doorLayer.setCollisionByProperty({ collides: true });
     scene.physics.world.addCollider(scene.player.sprite, scene.doorLayer);
+    scene.physics.world.addCollider(scene.spider.sprite, scene.doorLayer);
+
     // Collide the player against the ground layer - here we are grabbing the sprite property from the player (since the Player class is not a Phaser.Sprite).
     scene.groundLayer.setCollisionByProperty({ collides: true });
 
@@ -77,7 +91,7 @@ export function loadMapsAndSprites(scene, path) {
     //     .setAlpha(0.75)
     //     .setDepth(20);
     //
-    // scene.doorLayer.renderDebug(graphics, {
+    // scene.groundLayer.renderDebug(graphics, {
     //     tileColor: null, // Color of non-colliding tiles
     //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
     //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges

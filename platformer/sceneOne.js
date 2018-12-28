@@ -20,11 +20,15 @@ export default class SceneOne extends Phaser.Scene {
         this.isPlayerDead = false;
         loadMapsAndSprites(this, 'platformer-rouge');
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
+        this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+
+        this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
         this.player.update();
+        this.spider.update();
         jump(this);
 
         // Add a colliding tile at the mouse position
@@ -55,7 +59,7 @@ export default class SceneOne extends Phaser.Scene {
 }
 
 const draw = _.throttle((scene, worldPoint) => {
-    const tile = scene.groundLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
+    const tile = scene.platformLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
     tile.setCollision(true);
     scene.score = scene.score - 1;
     scene.scoreText.setText('Potions:' + scene.score);
