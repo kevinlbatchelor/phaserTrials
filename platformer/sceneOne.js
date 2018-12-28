@@ -50,7 +50,6 @@ export default class SceneOne extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
-            console.log('hi');
             this.scene.start('Shop');
         });
 

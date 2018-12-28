@@ -17,34 +17,17 @@ export default class Spider {
             repeat: -1
         });
 
-        // Create the physics-based sprite that we will move around and animate
         this.sprite = scene.physics.add
             .sprite(x, y, 'spider', 0)
             .setDrag(1000, 0)
             .setMaxVelocity(50, 1000);
-
-        // Track the arrow keys & WASD
-        const { LEFT, RIGHT, UP, W, A, D, SPACE } = Phaser.Input.Keyboard.KeyCodes;
-
-        this.keys = scene.input.keyboard.addKeys({
-            left: LEFT,
-            right: RIGHT,
-            up: UP,
-            w: W,
-            a: A,
-            d: D,
-            space: SPACE
-        });
     }
 
     update() {
-        const keys = this.keys;
         const sprite = this.sprite;
         const onGround = sprite.body.blocked.down;
         const acceleration = onGround ? 100 : 1000;
-        console.log('hi');
 
-        this.isJumping = keys.space.isDown;
         // Apply horizontal acceleration when left/a or right/d are applied
         if (!turn) {
             turn = sprite.body.blocked.left;
@@ -63,7 +46,6 @@ export default class Spider {
             sprite.setAccelerationX(0);
         }
 
-        // Update the animation/texture based on the state of the spider
         if (onGround) {
             if (sprite.body.velocity.x !== 0) {
                 sprite.anims.play('spider-run', true);

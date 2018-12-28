@@ -1,8 +1,4 @@
-/**
- * A class that wraps up our 2D platforming player logic. It creates, animates and moves a sprite in
- * response to WASD/arrow keys. Call its update method from the scene's update and call its destroy
- * method when you're done with the player.
- */
+
 export default class Player {
     constructor(scene, x, y) {
         this.scene = scene;
@@ -42,7 +38,7 @@ export default class Player {
             .setMaxVelocity(300, 400);
 
         // Track the arrow keys & WASD
-        const { LEFT, RIGHT, UP, W, A, D, SPACE } = Phaser.Input.Keyboard.KeyCodes;
+        const { LEFT, RIGHT, UP, W, A, D, SPACE, Q } = Phaser.Input.Keyboard.KeyCodes;
 
         this.keys = scene.input.keyboard.addKeys({
             left: LEFT,
@@ -51,7 +47,8 @@ export default class Player {
             w: W,
             a: A,
             d: D,
-            space: SPACE
+            space: SPACE,
+            q: Q
         });
     }
 

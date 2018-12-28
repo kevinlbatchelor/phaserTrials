@@ -26,7 +26,8 @@ export default class SceneTwo extends Phaser.Scene {
     update(time, delta) {
         if (this.isPlayerDead) return;
         this.player.update();
-        // jump(this);
+        this.spider.update();
+        jump(this);
 
         // Add a colliding tile at the mouse position
         const pointer = this.input.activePointer;

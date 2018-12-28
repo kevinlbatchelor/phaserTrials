@@ -3,7 +3,9 @@ import Spider from './spider.js';
 import Item from './item.js';
 
 export function death(scene) {
-    if (scene.player.sprite.y > scene.groundLayer.height || scene.physics.world.overlap(scene.player.sprite, scene.spikeGroup)) {
+    if (scene.player.sprite.y > scene.groundLayer.height ||
+        scene.physics.world.overlap(scene.player.sprite, scene.spider.sprite) ||
+        scene.physics.world.overlap(scene.player.sprite, scene.spikeGroup)) {
         // Flag that the player is dead so that we can stop update from running in the future
         scene.isPlayerDead = true;
 
@@ -64,13 +66,12 @@ export function loadMapsAndSprites(scene, path) {
     scene.platformLayer = map.createDynamicLayer('PlatformLayer', tiles);
     scene.foregroundLayer = map.createDynamicLayer('Foreground', tiles);
     scene.foregroundLayer.setDepth(10);
-    let findFunction = (obj) => {
-        return obj.name === 'Spawn Point';
-    };
+
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
-    const spawnPoint = map.findObject('Objects', findFunction);
+    const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
+    const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
     scene.player = new Player(scene, spawnPoint.x, spawnPoint.y);
-    scene.spider = new Spider(scene, spawnPoint.x+20, spawnPoint.y+20);
+    scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
 
     scene.doorLayer.setCollisionByProperty({ collides: true });
     scene.physics.world.addCollider(scene.player.sprite, scene.doorLayer);
@@ -85,16 +86,27 @@ export function loadMapsAndSprites(scene, path) {
 
     scene.cameras.main.startFollow(scene.player.sprite);
     scene.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    // debug
-    // const graphics = scene.add
-    //     .graphics()
-    //     .setAlpha(0.75)
-    //     .setDepth(20);
-    //
-    // scene.groundLayer.renderDebug(graphics, {
-    //     tileColor: null, // Color of non-colliding tiles
-    //     collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-    //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
-    // });
 
+    debug(scene);
 }
+
+function debug(scene) {
+    scene.input.keyboard.once('keydown_D', (event) => {
+        // Turn on physics debugging to show player's hitbox
+        scene.physics.world.createDebugGraphic();
+
+        // Create worldLayer collision graphic above the player, but below the help text
+        const graphics = scene.add.graphics().setAlpha(0.75).setDepth(20);
+        scene.groundLayer.renderDebug(graphics, {
+            tileColor: null, // Color of non-colliding tiles
+            collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+            faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+        });
+    });
+}
+
+function findFunction(name) {
+    return (obj) => {
+        return obj.name === name;
+    };
+};

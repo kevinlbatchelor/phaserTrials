@@ -25,8 +25,9 @@ export default class Shop extends Phaser.Scene {
 
     update(time, delta) {
         if (this.isPlayerDead) return;
+        this.spider.update();
         this.player.update();
-        // jump(this);
+        jump(this);
 
         // Add a colliding tile at the mouse position
         const pointer = this.input.activePointer;
