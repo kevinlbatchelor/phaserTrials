@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, draw } from './utils.js';
 import Item from './item.js';
 
 export default class SceneOne extends Phaser.Scene {
@@ -12,7 +12,7 @@ export default class SceneOne extends Phaser.Scene {
 
     create() {
         this.score = 0;
-        this.scoreText = this.add.text(40, 10, 'Click to use potions:' + this.score, {
+        this.scoreText = this.add.text(40, 10, 'Click to use potions', {
             font: '18px monospace',
             fill: '#ffffff',
             padding: { x: 32, y: 32 }
@@ -31,17 +31,18 @@ export default class SceneOne extends Phaser.Scene {
         this.spider.update();
         jump(this);
 
-        // Add a colliding tile at the mouse position
         const pointer = this.input.activePointer;
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
-        if (pointer.isDown && this.score > 0) {
+        // Add a colliding tile at the mouse position
+        if (pointer.isDown && this.player.getInventory().potions > 0) {
             draw(this, worldPoint);
         }
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
-            this.score = this.score + 1;
-            this.scoreText.setText('Potions:' + this.score);
+            this.player.addInventory('potions');
+
+            this.scoreText.setText('Potions:' + _.toString(this.player.getInventory().potions));
             potion.disableBody(true, true);
         });
 
@@ -50,8 +51,8 @@ export default class SceneOne extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
-            if(this.player.isEntering){
-                this.scene.start('Shop')
+            if (this.player.isEntering) {
+                this.scene.start('Shop');
             }
             this.scoreText.setText('Alchemist shop. Enter? Y or N');
         });
@@ -59,10 +60,3 @@ export default class SceneOne extends Phaser.Scene {
         death(this);
     }
 }
-
-const draw = _.throttle((scene, worldPoint) => {
-    const tile = scene.platformLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
-    tile.setCollision(true);
-    scene.score = scene.score - 1;
-    scene.scoreText.setText('Potions:' + scene.score);
-}, 500, { leading: true, trailing: false });

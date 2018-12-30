@@ -70,7 +70,7 @@ export function loadMapsAndSprites(scene, path) {
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
     const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
-    scene.player = new Player(scene, spawnPoint.x, spawnPoint.y);
+    scene.player = new Player(scene, spawnPoint.x, spawnPoint.y, inventory);
     scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
 
 
@@ -78,7 +78,7 @@ export function loadMapsAndSprites(scene, path) {
     scene.groundLayer.setCollisionByProperty({ collides: true });
     scene.doorLayer.setCollisionByProperty({ collides: true });
 
-    new Item(scene, 'spike', 'spikeGroup', 'isSpike');
+    new Item(scene, 'spike', 'spikeGroup', 'isSpike', 'groundLayer', { width: 32, height: 6 });
     new Item(scene, 'potion', 'potionGroup', 'isPotion');
     new Item(scene, 'chest', 'chestGroup', 'isChest');
 
@@ -109,3 +109,17 @@ export function findFunction(name) {
         return obj.name === name;
     };
 }
+
+export let inventory = {
+    potions: 0,
+    gold: 0,
+    weapons: [],
+    spells: []
+};
+
+export const draw = _.throttle((scene, worldPoint) => {
+    const tile = scene.platformLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
+    tile.setCollision(true);
+    scene.player.deleteInventory('potions');
+    scene.scoreText.setText('Potions:' + _.toString(this.player.getInventory().potions));
+}, 500, { leading: true, trailing: false });

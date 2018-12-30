@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, findFunction } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, findFunction, draw} from './utils.js';
 import Alchemist from './alchemist.js';
 
 export default class Shop extends Phaser.Scene {
@@ -38,13 +38,14 @@ export default class Shop extends Phaser.Scene {
         const pointer = this.input.activePointer;
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
-        if (pointer.isDown && this.score > 0) {
+        if (pointer.isDown && this.player.getInventory().potions > 0) {
             draw(this, worldPoint);
         }
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
-            this.score = this.score + 1;
-            this.scoreText.setText('Potions:' + this.score);
+            this.player.addInventory('potions');
+
+            this.scoreText.setText('Potions:' + this.player.getInventory().potions);
             potion.disableBody(true, true);
         });
 
@@ -62,10 +63,3 @@ export default class Shop extends Phaser.Scene {
         death(this);
     }
 }
-
-const draw = _.throttle((scene, worldPoint) => {
-    const tile = scene.groundLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
-    tile.setCollision(true);
-    scene.score = scene.score - 1;
-    scene.scoreText.setText('Potions:' + scene.score);
-}, 500, { leading: true, trailing: false });

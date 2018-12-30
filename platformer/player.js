@@ -1,7 +1,9 @@
+import { inventory } from './utils.js';
 
 export default class Player {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, inventory = {}) {
         this.scene = scene;
+        console.log(JSON.stringify(inventory));
 
         // Create the animations we need from the player spritesheet
         const anims = scene.anims;
@@ -35,7 +37,7 @@ export default class Player {
         this.sprite = scene.physics.add
             .sprite(x, y, 'player', 0)
             .setDrag(1000, 0)
-            .setMaxVelocity(300, 400);
+            .setMaxVelocity(300, 400).setSize(16, 32).setOffset(8, 0);
 
         // Track the arrow keys & WASD
         const { LEFT, RIGHT, UP, W, A, D, SPACE, Y } = Phaser.Input.Keyboard.KeyCodes;
@@ -52,6 +54,20 @@ export default class Player {
         });
     }
 
+    addInventory(key) {
+        inventory[key] = inventory[key] + 1;
+        return inventory;
+    }
+
+    deleteInventory(key) {
+        inventory[key] = inventory[key] - 1;
+        return inventory;
+    }
+
+    getInventory() {
+        return inventory;
+    }
+
     update() {
         const keys = this.keys;
         const sprite = this.sprite;
@@ -59,7 +75,7 @@ export default class Player {
         const acceleration = onGround ? 600 : 200;
 
         this.isJumping = keys.space.isDown;
-        this.isEntering =keys.y.isDown;
+        this.isEntering = keys.y.isDown;
 
         // Apply horizontal acceleration when left/a or right/d are applied
         if (keys.left.isDown || keys.a.isDown) {

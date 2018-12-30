@@ -20,7 +20,7 @@ export default class Spider {
         this.sprite = scene.physics.add
             .sprite(x, y, 'spider', 0)
             .setDrag(1000, 0)
-            .setMaxVelocity(50, 1000);
+            .setMaxVelocity(50, 1000).setSize(32, 10).setOffset(0,22);
     }
 
     update() {
