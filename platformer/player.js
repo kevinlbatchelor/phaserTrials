@@ -3,7 +3,6 @@ import { inventory } from './utils.js';
 export default class Player {
     constructor(scene, x, y, inventory = {}) {
         this.scene = scene;
-        console.log(JSON.stringify(inventory));
 
         // Create the animations we need from the player spritesheet
         const anims = scene.anims;
