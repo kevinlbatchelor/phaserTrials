@@ -5,9 +5,10 @@ export default class Alchemist {
         this.isSpeaking = false;
         this.scripts = [
             'I see you are an alchemist, Are you here to buy(B) or sell(S)?',
-            'You haven\'t enough gold',
-            'Potion (P) 200g',
-            'You haven\'t got any fink that I needs',
+            'You haven\'t enough gold.',
+            'Buy potion. (P) -20g',
+            'Sell potion. (X) +10g',
+            'You haven\'t got any thing that I need.',
             'Thank\'s for doing business'
         ];
 
@@ -30,23 +31,23 @@ export default class Alchemist {
             .setDrag(1000, 0)
             .setMaxVelocity(20, 500);
 
-        const { B, S } = Phaser.Input.Keyboard.KeyCodes;
+        const { B, S, X, P } = Phaser.Input.Keyboard.KeyCodes;
 
         this.keys = scene.input.keyboard.addKeys({
             b: B,
-            s: S
+            s: S,
+            x: X,
+            p: P
         });
     }
 
     update() {
-        const keys = this.keys;
         let acceleration;
         const sprite = this.sprite;
         const onGround = sprite.body.blocked.down;
         if (onGround && !this.isSpeaking) {
             acceleration = 20;
         } else if (this.isSpeaking) {
-
             acceleration = 0;
         } else {
             acceleration = 1000;

@@ -46,7 +46,7 @@ export default class SceneOne extends Phaser.Scene {
             if (this.player.isEntering) {
                 this.scene.start('Shop');
             }
-            this.metaText.setText('Alchemist shop. Enter? Y or N');
+            this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });
         death(this);
     }

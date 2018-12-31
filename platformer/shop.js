@@ -41,7 +41,6 @@ export default class Shop extends Phaser.Scene {
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
 
-            updateText(this);
             potion.disableBody(true, true);
         });
 
@@ -64,15 +63,40 @@ export default class Shop extends Phaser.Scene {
             }
         }
 
+        if (this.alchemist.keys.b.isDown) {
+            if (inventory.gold > 20) {
+                this.script = 2;
+            }
+        }
+
+        if (this.alchemist.keys.p.isDown && inventory.gold > 19) {
+            inventory.potions = inventory.potions + 1;
+            inventory.gold = inventory.gold - 20;
+            this.script = 5;
+        }
+
+        if (this.alchemist.keys.x.isDown && inventory.potions > 0) {
+            inventory.potions = inventory.potions - 1;
+            inventory.gold = inventory.gold + 20;
+            this.script = 5;
+        }
+
+        if (this.alchemist.keys.s.isDown) {
+            if (inventory.potions > 0) {
+                this.script = 3;
+            }
+        }
         if (this.alchemist.keys.s.isDown) {
             if (inventory.potions < 1) {
-                this.script = 3;
+                this.script = 4;
             }
         }
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
             this.scene.start('SceneTwo');
         });
+
         death(this);
+        updateText(this);
     }
 }
