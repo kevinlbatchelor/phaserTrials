@@ -16,7 +16,6 @@ export default class SceneOne extends Phaser.Scene {
         loadMapsAndSprites(this, 'platformer-rouge');
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
-
     }
 
     update(time, delta) {
@@ -42,6 +41,7 @@ export default class SceneOne extends Phaser.Scene {
             this.scene.start('SceneTwo');
         });
 
+        this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
                 this.scene.start('Shop');
