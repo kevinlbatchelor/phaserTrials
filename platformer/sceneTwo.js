@@ -1,10 +1,11 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw, updateText } from './utils.js';
-import { drawText, inventory } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, draw, updateText, levels, drawText, inventory, gotoLevel } from './utils.js';
 import Item from './item.js';
+
+const sceneName = 'SceneTwo';
 
 export default class SceneTwo extends Phaser.Scene {
     constructor() {
-        super('SceneTwo');
+        super(sceneName);
     }
 
     preload() {
@@ -12,6 +13,9 @@ export default class SceneTwo extends Phaser.Scene {
     }
 
     create() {
+        this.sceneState = levels[sceneName];
+        this.sceneState.visited = true;
+
         drawText(this, inventory);
         this.isPlayerDead = false;
         loadMapsAndSprites(this, 'rouge2');
@@ -44,15 +48,15 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
-            this.scene.start('SceneOne');
-        }, (a) => {
-          console.log(a);
+            if (this.player.isEntering) {
+                gotoLevel(this, chest, 'SceneOne', levels);
+            }
+            this.metaText.setText('Leave the city. Enter? yes(Y) or no(N)');
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
-            console.log('door');
             if (this.player.isEntering) {
-                this.scene.start('Shop');
+                gotoLevel(this, door, 'Shop', levels);
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });

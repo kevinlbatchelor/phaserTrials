@@ -79,11 +79,10 @@ export function loadMapsAndSprites(scene, path) {
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
     const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
-    scene.player = new Player(scene, spawnPoint.x, spawnPoint.y, inventory);
+
     if (enemyPoint) {
         scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
     }
-
 
     // Collide the player against the ground layer - here we are grabbing the sprite property from the player (since the Player class is not a Phaser.Sprite).
     scene.groundLayer.setCollisionByProperty({ collides: true });
@@ -93,6 +92,13 @@ export function loadMapsAndSprites(scene, path) {
     new Item(scene, 'potion', 'potionGroup', 'isPotion');
     new Item(scene, 'chest', 'chestGroup', 'isChest');
 
+    let { x, y } = spawnPoint;
+
+    if (scene.sceneState.exitPostion) {
+        x = scene.sceneState.exitPostion.x;
+        y = scene.sceneState.exitPostion.y;
+    }
+    scene.player = new Player(scene, x, y, inventory);
     scene.cameras.main.startFollow(scene.player.sprite);
     scene.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
@@ -128,6 +134,12 @@ export let inventory = {
     spells: []
 };
 
+export let levels = {
+    SceneOne: { visited: false },
+    SceneTwo: { visited: false },
+    Shop: { visited: false }
+};
+
 export const draw = _.throttle((scene, worldPoint) => {
     const tile = scene.platformLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
     tile.setCollision(true);
@@ -159,4 +171,13 @@ export function drawText(scene, inventory) {
 export function updateText(scene) {
     scene.potions.setText('Potions:' + _.toString(scene.player.getInventory().potions));
     scene.gold.setText('Gold:' + _.toString(scene.player.getInventory().gold));
+}
+
+export function gotoLevel(scene, door, gotoScene, levels) {
+    let position = {};
+    position.x = door.body.center.x;
+    position.y = door.body.center.y;
+    levels[gotoScene].fromScene = scene.scene.key;
+    scene.sceneState.exitPostion = position;
+    scene.scene.start(gotoScene);
 }

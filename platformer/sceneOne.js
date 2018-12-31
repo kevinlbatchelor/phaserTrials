@@ -1,9 +1,10 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
 import Item from './item.js';
 
+const sceneName = 'SceneOne';
 export default class SceneOne extends Phaser.Scene {
     constructor() {
-        super('SceneOne');
+        super(sceneName);
     }
 
     preload() {
@@ -11,6 +12,8 @@ export default class SceneOne extends Phaser.Scene {
     }
 
     create() {
+        this.sceneState = levels[sceneName];
+        this.sceneState.visited = true;
         drawText(this, inventory);
         this.isPlayerDead = false;
         loadMapsAndSprites(this, 'platformer-rouge');
@@ -38,14 +41,15 @@ export default class SceneOne extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
-            this.scene.start('SceneTwo');
+            gotoLevel(this, chest, 'SceneTwo', levels);
         });
 
         this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
-                this.scene.start('Shop');
+                gotoLevel(this, door, 'Shop', levels);
             }
+
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });
         death(this);
