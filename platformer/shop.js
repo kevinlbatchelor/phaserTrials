@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, findFunction, draw} from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, findFunction, draw, drawText, inventory, updateText } from './utils.js';
 import Alchemist from './alchemist.js';
 
 export default class Shop extends Phaser.Scene {
@@ -11,12 +11,8 @@ export default class Shop extends Phaser.Scene {
     }
 
     create() {
-        this.score = 0;
-        this.scoreText = this.add.text(40, 40, '', {
-            font: '18px monospace',
-            fill: '#ffffff',
-            padding: { x: 32, y: 32 }
-        }).setScrollFactor(0).setDepth(30);
+        this.script = 0;
+        drawText(this, inventory);
         this.isPlayerDead = false;
         let map = loadMapsAndSprites(this, 'shop');
 
@@ -45,17 +41,34 @@ export default class Shop extends Phaser.Scene {
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
 
-            this.scoreText.setText('Potions:' + this.player.getInventory().potions);
+            updateText(this);
             potion.disableBody(true, true);
         });
 
         this.alchemist.isSpeaking = false;
 
-        this.scoreText.setText('');
+        this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.alchemist.sprite, (player, alchemist) => {
             this.alchemist.isSpeaking = true;
-            this.scoreText.setText('I see you are an alchemist, Are you here to buy or sell?');
+
+            this.metaText.setText(this.alchemist.scripts[this.script]);
         });
+
+        if (!this.alchemist.isSpeaking) {
+            this.script = 0;
+        }
+
+        if (this.alchemist.keys.b.isDown) {
+            if (inventory.gold < 1) {
+                this.script = 1;
+            }
+        }
+
+        if (this.alchemist.keys.s.isDown) {
+            if (inventory.potions < 1) {
+                this.script = 3;
+            }
+        }
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
             this.scene.start('SceneTwo');

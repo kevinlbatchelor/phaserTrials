@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText } from './utils.js';
 import Item from './item.js';
 
 export default class SceneOne extends Phaser.Scene {
@@ -11,24 +11,17 @@ export default class SceneOne extends Phaser.Scene {
     }
 
     create() {
-        this.score = 0;
-        this.scoreText = this.add.text(40, 10, 'Click to use potions', {
-            font: '18px monospace',
-            fill: '#ffffff',
-            padding: { x: 32, y: 32 }
-        }).setScrollFactor(0).setDepth(30);
+        drawText(this, inventory);
         this.isPlayerDead = false;
         loadMapsAndSprites(this, 'platformer-rouge');
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
 
-        this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
         this.player.update();
-        this.spider.update();
         jump(this);
 
         const pointer = this.input.activePointer;
@@ -41,8 +34,7 @@ export default class SceneOne extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
-
-            this.scoreText.setText('Potions:' + _.toString(this.player.getInventory().potions));
+            updateText(this);
             potion.disableBody(true, true);
         });
 
@@ -54,9 +46,8 @@ export default class SceneOne extends Phaser.Scene {
             if (this.player.isEntering) {
                 this.scene.start('Shop');
             }
-            this.scoreText.setText('Alchemist shop. Enter? Y or N');
+            this.metaText.setText('Alchemist shop. Enter? Y or N');
         });
-
         death(this);
     }
 }

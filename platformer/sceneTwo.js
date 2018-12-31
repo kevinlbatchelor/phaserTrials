@@ -1,4 +1,5 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, draw, updateText } from './utils.js';
+import { drawText, inventory } from './utils.js';
 
 export default class SceneTwo extends Phaser.Scene {
     constructor() {
@@ -10,12 +11,7 @@ export default class SceneTwo extends Phaser.Scene {
     }
 
     create() {
-        this.score = 0;
-        this.scoreText = this.add.text(40, 10, 'Scene Two', {
-            font: '18px monospace',
-            fill: '#ffffff',
-            padding: { x: 32, y: 32 }
-        }).setScrollFactor(0).setDepth(30);
+        drawText(this, inventory);
         this.isPlayerDead = false;
         loadMapsAndSprites(this, 'rouge2');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
@@ -40,7 +36,7 @@ export default class SceneTwo extends Phaser.Scene {
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
 
-            this.scoreText.setText('Potions:' + this.player.getInventory().potions);
+            updateText(this);
             potion.disableBody(true, true);
         });
 

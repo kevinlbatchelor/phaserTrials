@@ -4,9 +4,18 @@ import Item from './item.js';
 
 export function death(scene) {
     if (scene.player.sprite.y > scene.groundLayer.height ||
-        scene.physics.world.overlap(scene.player.sprite, scene.spider.sprite) ||
         scene.physics.world.overlap(scene.player.sprite, scene.spikeGroup)) {
-        // Flag that the player is dead so that we can stop update from running in the future
+        die();
+    }
+
+    if (scene.spider) {
+        if (
+            scene.physics.world.overlap(scene.player.sprite, scene.spider.sprite)) {
+            die();
+        }
+    }
+
+    function die() {
         scene.isPlayerDead = true;
 
         const cam = scene.cameras.main;
@@ -71,7 +80,9 @@ export function loadMapsAndSprites(scene, path) {
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
     const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
     scene.player = new Player(scene, spawnPoint.x, spawnPoint.y, inventory);
-    scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
+    if (enemyPoint) {
+        scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
+    }
 
 
     // Collide the player against the ground layer - here we are grabbing the sprite property from the player (since the Player class is not a Phaser.Sprite).
@@ -121,5 +132,31 @@ export const draw = _.throttle((scene, worldPoint) => {
     const tile = scene.platformLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
     tile.setCollision(true);
     scene.player.deleteInventory('potions');
-    scene.scoreText.setText('Potions:' + _.toString(this.player.getInventory().potions));
+    updateText(scene);
 }, 500, { leading: true, trailing: false });
+
+export function drawText(scene, inventory) {
+    let w = scene.game.config.width - 150;
+    scene.metaText = scene.add.text(40, 40, '', {
+        font: '18px monospace',
+        fill: '#ffffff',
+        padding: { x: 32, y: 32 }
+    }).setScrollFactor(0).setDepth(30);
+
+    scene.gold = scene.add.text(w, 10, 'Gold:' + inventory.gold, {
+        font: '18px monospace',
+        fill: '#ffffff',
+        padding: { x: 0, y: 0 }
+    }).setScrollFactor(0).setDepth(30);
+
+    scene.potions = scene.add.text(w, 30, 'Potions:' + inventory.potions, {
+        font: '18px monospace',
+        fill: '#ffffff',
+        padding: { x: 0, y: 0 }
+    }).setScrollFactor(0).setDepth(30);
+}
+
+export function updateText(scene) {
+    scene.potions.setText('Potions:' + _.toString(scene.player.getInventory().potions));
+    scene.gold.setText('Gold:' + _.toString(scene.player.getInventory().gold));
+}

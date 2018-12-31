@@ -3,6 +3,13 @@ export default class Alchemist {
     constructor(scene, x, y) {
         this.scene = scene;
         this.isSpeaking = false;
+        this.scripts = [
+            'I see you are an alchemist, Are you here to buy(B) or sell(S)?',
+            'You haven\'t enough gold',
+            'Potion (P) 200g',
+            'You haven\'t got any fink that I needs',
+            'Thank\'s for doing business'
+        ];
 
         const anims = scene.anims;
         anims.create({
@@ -22,9 +29,17 @@ export default class Alchemist {
             .sprite(x, y, 'alchemist', 0)
             .setDrag(1000, 0)
             .setMaxVelocity(20, 500);
+
+        const { B, S } = Phaser.Input.Keyboard.KeyCodes;
+
+        this.keys = scene.input.keyboard.addKeys({
+            b: B,
+            s: S
+        });
     }
 
     update() {
+        const keys = this.keys;
         let acceleration;
         const sprite = this.sprite;
         const onGround = sprite.body.blocked.down;
