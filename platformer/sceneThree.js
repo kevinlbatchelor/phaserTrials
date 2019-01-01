@@ -1,7 +1,7 @@
 import { jump, death, loadAssets, loadMapsAndSprites, draw, updateText, levels, drawText, inventory, gotoLevel } from './utils.js';
 import Item from './item.js';
 
-const sceneName = 'SceneTwo';
+const sceneName = 'SceneThree';
 
 export default class SceneTwo extends Phaser.Scene {
     constructor() {
@@ -9,7 +9,7 @@ export default class SceneTwo extends Phaser.Scene {
     }
 
     preload() {
-        loadAssets(this, 'rouge2');
+        loadAssets(this, 'rouge3');
     }
 
     create() {
@@ -49,7 +49,7 @@ export default class SceneTwo extends Phaser.Scene {
         this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
             if (this.player.isEntering) {
-                gotoLevel(this, chest, 'SceneThree', levels);
+                gotoLevel(this, chest, 'SceneOne', levels);
             }
             this.metaText.setText('Leave the city. Enter? yes(Y) or no(N)');
         });

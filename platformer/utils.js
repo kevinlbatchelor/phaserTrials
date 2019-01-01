@@ -38,6 +38,7 @@ export function jump(scene) {
 }
 
 export function loadAssets(scene, path) {
+    console.log(path);
     scene.load.spritesheet(
         'player',
         'assets/spritesheets/rouge-sprite2.png',
@@ -137,6 +138,7 @@ export let inventory = {
 export let levels = {
     SceneOne: { visited: false },
     SceneTwo: { visited: false },
+    SceneThree: { visited: false },
     Shop: { visited: false }
 };
 
@@ -179,5 +181,6 @@ export function gotoLevel(scene, door, gotoScene, levels) {
     position.y = door.body.center.y;
     levels[gotoScene].fromScene = scene.scene.key;
     scene.sceneState.exitPostion = position;
+    console.log('------->gotoScene', gotoScene);
     scene.scene.start(gotoScene);
 }
