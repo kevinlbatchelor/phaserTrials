@@ -40,7 +40,6 @@ export function jump(scene) {
 }
 
 export function loadAssets(scene, path) {
-    console.log(path);
     scene.load.spritesheet(
         'player',
         'assets/spritesheets/rouge-sprite2.png',
@@ -183,6 +182,15 @@ export function gotoLevel(scene, door, gotoScene, levels) {
     position.y = door.body.center.y;
     levels[gotoScene].fromScene = scene.scene.key;
     scene.sceneState.exitPostion = position;
-    console.log('------->gotoScene', gotoScene);
     scene.scene.start(gotoScene);
+}
+
+export function createAnimation(scene, animationObj){
+    const anims = scene.scene.anims;
+    let keyFound = Object.keys(scene.scene.anims.game.anims.anims.entries).find((item) => {
+        return item === animationObj.key
+    });
+    if(!keyFound){
+        anims.create(animationObj);
+    }
 }

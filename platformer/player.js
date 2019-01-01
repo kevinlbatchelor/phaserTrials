@@ -1,4 +1,5 @@
 import { inventory } from './utils.js';
+import { createAnimation } from './utils.js';
 
 export default class Player {
     constructor(scene, x, y, inventory = {}) {
@@ -6,26 +7,26 @@ export default class Player {
 
         // Create the animations we need from the player spritesheet
         const anims = scene.anims;
-        anims.create({
+        createAnimation(this,{
             key: 'player-idle',
             frames: anims.generateFrameNumbers('player', { start: 0, end: 3 }),
             frameRate: 3,
             repeat: -1
         });
-        anims.create({
+        createAnimation(this,{
             key: 'player-run',
             frames: anims.generateFrameNumbers('player', { start: 8, end: 15 }),
             frameRate: 12,
             repeat: -1
         });
 
-        anims.create({
+        createAnimation(this,{
             key: 'jump-up',
             frames: anims.generateFrameNumbers('player', { start: 16, end: 16 }),
             frameRate: 12,
             repeat: -1
         });
-        anims.create({
+        createAnimation(this,{
             key: 'jump-down',
             frames: anims.generateFrameNumbers('player', { start: 17, end: 17 }),
             frameRate: 12,

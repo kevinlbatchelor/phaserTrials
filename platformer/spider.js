@@ -1,16 +1,17 @@
-let turn = true;
+import {createAnimation} from './utils.js'
+
 export default class Spider {
     constructor(scene, x, y) {
         this.scene = scene;
 
         const anims = scene.anims;
-        anims.create({
+        createAnimation(this, {
             key: 'spider-idle',
             frames: anims.generateFrameNumbers('npc', { start: 8, end: 8 }),
             frameRate: 3,
             repeat: -1
         });
-        anims.create({
+        createAnimation(this,{
             key: 'spider-run',
             frames: anims.generateFrameNumbers('npc', { start: 8, end: 10 }),
             frameRate: 6,
@@ -20,24 +21,31 @@ export default class Spider {
         this.sprite = scene.physics.add
             .sprite(x, y, 'spider', 0)
             .setDrag(1000, 0)
-            .setMaxVelocity(50, 1000).setSize(32, 10).setOffset(0,22);
+            .setMaxVelocity(50, 1000).setSize(32, 10).setOffset(0, 22);
+
+
+        this.turn = true;
+        const randomBoolean = Math.random() >= 0.5;
+        if (!randomBoolean) {
+            this.turn = false
+        }
     }
 
     update() {
         const sprite = this.sprite;
         const onGround = sprite.body.blocked.down;
-        const acceleration = onGround ? 50 : 200;
+        let acceleration = onGround ? 50 : 200;
 
         // Apply horizontal acceleration when left/a or right/d are applied
-        if (!turn) {
-            turn = sprite.body.blocked.left;
+        if (!this.turn) {
+            this.turn = sprite.body.blocked.left;
 
             sprite.setAccelerationX(-acceleration);
             // No need to have a separate set of graphics for running to the left & to the right. Instead
             // we can just mirror the sprite.
             sprite.setFlipX(true);
-        } else if (turn) {
-            turn = !sprite.body.blocked.right;
+        } else if (this.turn) {
+            this.turn = !sprite.body.blocked.right;
             sprite.setAccelerationX(acceleration);
 
             sprite.setFlipX(false);
