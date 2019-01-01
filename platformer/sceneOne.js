@@ -23,6 +23,8 @@ export default class SceneOne extends Phaser.Scene {
 
     update(time, delta) {
         if (this.isPlayerDead) return;
+
+        this.metaText.setText('');
         this.player.update();
         jump(this);
 
@@ -41,16 +43,17 @@ export default class SceneOne extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
-            gotoLevel(this, chest, 'SceneTwo', levels);
+            if (this.player.isEntering) {
+                gotoLevel(this, chest, 'SceneTwo', levels);
+            }
+            this.metaText.setText('Leave the country? yes(Y) or no(N)');
         });
 
-        this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
                 gotoLevel(this, door, 'Shop', levels);
             }
-
-            this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
+            this.metaText.setText('Alchemist shop? yes(Y) or no(N)');
         });
         death(this);
     }

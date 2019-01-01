@@ -149,7 +149,7 @@ export const draw = _.throttle((scene, worldPoint) => {
 
 export function drawText(scene, inventory) {
     let w = scene.game.config.width - 150;
-    scene.metaText = scene.add.text(40, 40, '', {
+    scene.metaText = scene.add.text(20, 40, '', {
         font: '18px monospace',
         fill: '#ffffff',
         padding: { x: 32, y: 32 }
