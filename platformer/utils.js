@@ -16,6 +16,8 @@ export function death(scene) {
     }
 
     function die() {
+        inventory.potions = 0;
+
         scene.isPlayerDead = true;
 
         const cam = scene.cameras.main;
@@ -130,7 +132,7 @@ export function findFunction(name) {
 
 export let inventory = {
     potions: 0,
-    gold: 0,
+    gold: 40,
     weapons: [],
     spells: []
 };
