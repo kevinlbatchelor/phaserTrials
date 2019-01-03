@@ -62,15 +62,15 @@
                 }, 
                 {
                  "height":0,
-                 "id":9,
+                 "id":10,
                  "name":"Player Spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":4205,
-                 "y":760
+                 "x":74,
+                 "y":806
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -103,7 +103,7 @@
          "y":0
         }],
  "nextlayerid":21,
- "nextobjectid":10,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

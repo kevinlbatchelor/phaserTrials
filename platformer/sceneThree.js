@@ -66,7 +66,7 @@ export default class SceneTwo extends Phaser.Scene {
             if (this.player.isEntering) {
                 gotoLevel(this, chest, 'SceneOne', levels);
             }
-            this.metaText.setText('Leave the city. Enter? yes(Y) or no(N)');
+            this.metaText.setText('Leave the country. Enter? yes(Y) or no(N)');
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {

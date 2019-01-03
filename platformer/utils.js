@@ -155,8 +155,16 @@ export function drawText(scene, inventory) {
     scene.metaText = scene.add.text(20, 40, '', {
         font: '18px monospace',
         fill: '#ffffff',
-        padding: { x: 32, y: 32 }
-    }).setScrollFactor(0).setDepth(30);
+        padding: { x: 32, y: 32 },
+        shadow: {
+            offsetX: 3,
+            offsetY: 3,
+            color: '#000',
+            blur: 0,
+            stroke: false,
+            fill: false
+        }
+    }).setScrollFactor(0).setDepth(30).setShadow(3, 3, 'rgb(0, 0, 0)', 0);
 
     scene.gold = scene.add.text(w, 10, 'Gold:' + inventory.gold, {
         font: '18px monospace',

@@ -6,6 +6,7 @@ import SceneThree from './sceneThree.js';
 window.onload = function () {
     let config = {
         type: Phaser.AUTO,
+        autoFocus: true,
         width: 1470,
         height: 700,
         parent: 'game-container',

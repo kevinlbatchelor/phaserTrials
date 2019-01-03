@@ -80,7 +80,7 @@ export default class Shop extends Phaser.Scene {
 
         if (this.alchemist.keys.x.isDown && inventory.potions > 0) {
             inventory.potions = inventory.potions - 1;
-            inventory.gold = inventory.gold + 20;
+            inventory.gold = inventory.gold + 10;
             this.script = 5;
         }
 
