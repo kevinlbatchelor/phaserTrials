@@ -7,26 +7,26 @@ export default class Player {
 
         // Create the animations we need from the player spritesheet
         const anims = scene.anims;
-        createAnimation(this,{
+        createAnimation(this, {
             key: 'player-idle',
             frames: anims.generateFrameNumbers('player', { start: 0, end: 3 }),
             frameRate: 3,
             repeat: -1
         });
-        createAnimation(this,{
+        createAnimation(this, {
             key: 'player-run',
             frames: anims.generateFrameNumbers('player', { start: 8, end: 15 }),
             frameRate: 12,
             repeat: -1
         });
 
-        createAnimation(this,{
+        createAnimation(this, {
             key: 'jump-up',
             frames: anims.generateFrameNumbers('player', { start: 16, end: 16 }),
             frameRate: 12,
             repeat: -1
         });
-        createAnimation(this,{
+        createAnimation(this, {
             key: 'jump-down',
             frames: anims.generateFrameNumbers('player', { start: 17, end: 17 }),
             frameRate: 12,
@@ -74,7 +74,7 @@ export default class Player {
         const onGround = sprite.body.blocked.down;
         const acceleration = onGround ? 600 : 200;
 
-        this.isJumping = keys.space.isDown;
+        this.isJumping = keys.up.isDown;
         this.isEntering = keys.y.isDown;
 
         // Apply horizontal acceleration when left/a or right/d are applied
@@ -91,19 +91,22 @@ export default class Player {
         }
 
         // Only allow the player to jump if they are on the ground
-        if (onGround && (keys.space.isDown)) {
+        if (onGround && (keys.up.isDown)) {
             sprite.anims.play('jump', true);
             sprite.setVelocityY(-500);
         }
 
         // Update the animation/texture based on the state of the player
         if (onGround) {
+            sprite.setDrag(1000, 0);
             if (sprite.body.velocity.x !== 0) {
                 sprite.anims.play('player-run', true);
             } else sprite.anims.play('player-idle', true);
         } else if (this.isJumping || sprite.body.velocity.y < 0) {
+            sprite.setDrag(200, 0);
             sprite.anims.play('jump-up', true);
         } else if (sprite.body.velocity.y > 0) {
+            sprite.setDrag(200, 0);
             sprite.anims.play('jump-down', true);
         } else {
             sprite.anims.stop();

@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText, levels, gotoLevel, addDrawLogic } from './utils.js';
 import Item from './item.js';
 
 const sceneName = 'SceneOne';
@@ -28,13 +28,11 @@ export default class SceneOne extends Phaser.Scene {
         this.player.update();
         jump(this);
 
-        const pointer = this.input.activePointer;
-        const worldPoint = pointer.positionToCamera(this.cameras.main);
-
+        // const pointer = this.input.activePointer;
+        // const worldPoint = pointer.positionToCamera(this.cameras.main);
         // Add a colliding tile at the mouse position
-        if (pointer.isDown && this.player.getInventory().potions > 0) {
-            draw(this, worldPoint);
-        }
+
+        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

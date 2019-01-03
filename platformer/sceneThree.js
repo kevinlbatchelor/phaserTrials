@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw, updateText, levels, drawText, inventory, gotoLevel, findFunction } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, addDrawLogic, updateText, levels, drawText, inventory, gotoLevel, findFunction } from './utils.js';
 import Item from './item.js';
 import Spider from './spider.js';
 
@@ -49,10 +49,7 @@ export default class SceneTwo extends Phaser.Scene {
         // Add a colliding tile at the mouse position
         const pointer = this.input.activePointer;
         const worldPoint = pointer.positionToCamera(this.cameras.main);
-
-        if (pointer.isDown && this.player.getInventory().potions > 0) {
-            draw(this, worldPoint);
-        }
+        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

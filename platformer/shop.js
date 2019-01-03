@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, findFunction, draw, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, findFunction, addDrawLogic, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
 import Alchemist from './alchemist.js';
 
 const sceneName = 'Shop';
@@ -33,13 +33,7 @@ export default class Shop extends Phaser.Scene {
         this.alchemist.update();
         jump(this);
 
-        // Add a colliding tile at the mouse position
-        const pointer = this.input.activePointer;
-        const worldPoint = pointer.positionToCamera(this.cameras.main);
-
-        if (pointer.isDown && this.player.getInventory().potions > 0) {
-            draw(this, worldPoint);
-        }
+        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

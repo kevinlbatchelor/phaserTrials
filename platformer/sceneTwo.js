@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw, updateText, levels, drawText, inventory, gotoLevel } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawText, inventory, gotoLevel, addDrawLogic } from './utils.js';
 import Item from './item.js';
 
 const sceneName = 'SceneTwo';
@@ -35,9 +35,7 @@ export default class SceneTwo extends Phaser.Scene {
         const pointer = this.input.activePointer;
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
-        if (pointer.isDown && this.player.getInventory().potions > 0) {
-            draw(this, worldPoint);
-        }
+        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

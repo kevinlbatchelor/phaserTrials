@@ -143,9 +143,29 @@ export let levels = {
     Shop: { visited: false }
 };
 
-export const draw = _.throttle((scene, worldPoint) => {
-    const tile = scene.platformLayer.putTileAtWorldXY(348, worldPoint.x, worldPoint.y);
+export function addDrawLogic(scene) {
+    let playerVelocity = scene.player.sprite.body.velocity;
+    if (scene.player.keys.space.isDown && scene.player.getInventory().potions > 0) {
+        let pt = {
+            x: scene.player.sprite.body.x + (playerVelocity.x / 4),
+            y: scene.player.sprite.body.y + (62)
+        };
+        draw(scene, pt, scene.player.sprite.body.velocity.x);
+    }
+}
+
+export const draw = _.throttle((scene, worldPoint, xVelocity) => {
+    let secondX = xVelocity < 0 ? worldPoint.x - 32 : worldPoint.x + 32;
+    let t1 = 348;
+    let t2 = 349;
+    if (xVelocity < 0) {
+        t1 = 349;
+        t2 = 348;
+    }
+    const tile = scene.platformLayer.putTileAtWorldXY(t1, worldPoint.x, worldPoint.y);
+    const tile2 = scene.platformLayer.putTileAtWorldXY(t2, secondX, worldPoint.y);
     tile.setCollision(true);
+    tile2.setCollision(true);
     scene.player.deleteInventory('potions');
     updateText(scene);
 }, 500, { leading: true, trailing: false });
@@ -193,12 +213,12 @@ export function gotoLevel(scene, door, gotoScene, levels) {
     scene.scene.start(gotoScene);
 }
 
-export function createAnimation(scene, animationObj){
+export function createAnimation(scene, animationObj) {
     const anims = scene.scene.anims;
     let keyFound = Object.keys(scene.scene.anims.game.anims.anims.entries).find((item) => {
-        return item === animationObj.key
+        return item === animationObj.key;
     });
-    if(!keyFound){
+    if (!keyFound) {
         anims.create(animationObj);
     }
 }
