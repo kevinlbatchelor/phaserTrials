@@ -112,12 +112,12 @@
         {
          "columns":34,
          "firstgid":1,
-         "image":"..\/tilesets\/tile-set-rouge.png",
-         "imageheight":1088,
-         "imagewidth":1088,
-         "margin":0,
+         "image":"..\/tilesets\/tile-set-rouge-x.png",
+         "imageheight":1156,
+         "imagewidth":1156,
+         "margin":1,
          "name":"tile-set-rouge",
-         "spacing":0,
+         "spacing":2,
          "tilecount":1156,
          "tileheight":32,
          "tiles":[
