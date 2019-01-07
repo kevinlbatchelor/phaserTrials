@@ -1,6 +1,6 @@
 export default class Item {
     constructor(scene, spriteTag, group, tileTag, layer = 'groundLayer', size = { width: 32, height: 32 }) {
-
+console.log('------->spriteTag', spriteTag);
         scene[group] = scene.physics.add.staticGroup();
         scene[layer].forEachTile((tile) => {
             if (tile.properties[tileTag]) {
