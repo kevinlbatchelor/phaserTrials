@@ -53,6 +53,12 @@ export default class SceneOne extends Phaser.Scene {
             }
             this.metaText.setText('Alchemist shop? yes(Y) or no(N)');
         });
+
+        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            this.player.addInventory('gold', 10);
+            updateText(this);
+            chest.disableBody(true, true);
+        });
         death(this);
     }
 }

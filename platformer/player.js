@@ -54,8 +54,8 @@ export default class Player {
         });
     }
 
-    addInventory(key) {
-        inventory[key] = inventory[key] + 1;
+    addInventory(key, amount = 1) {
+        inventory[key] = inventory[key] + amount;
         return inventory;
     }
 

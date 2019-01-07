@@ -64,7 +64,7 @@ export function loadAssets(scene, path) {
     scene.load.image('door', 'assets/images/door.png');
     scene.load.image('spike', 'assets/images/spike.png');
     scene.load.image('potion', 'assets/images/potion.png');
-    scene.load.image('chest', 'assets/images/innerDoor.png');
+    scene.load.image('chest', 'assets/images/chest.png');
     scene.load.image('innerDoor', 'assets/images/innerDoor.png');
     scene.load.image('tiles', 'assets/tilesets/tile-set-rouge-x.png');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');

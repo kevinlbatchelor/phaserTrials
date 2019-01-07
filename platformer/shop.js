@@ -89,6 +89,12 @@ export default class Shop extends Phaser.Scene {
             }
         }
 
+        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            this.player.addInventory('gold', 10);
+            updateText(this);
+            chest.disableBody(true, true);
+        });
+
         this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
             if (this.player.isEntering) {
                 gotoLevel(this, innerDoor, levels[sceneName].fromScene, levels);
