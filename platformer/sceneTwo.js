@@ -45,7 +45,7 @@ export default class SceneTwo extends Phaser.Scene {
         });
 
         this.metaText.setText('');
-        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+        this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, chest) => {
             if (this.player.isEntering) {
                 gotoLevel(this, chest, 'SceneThree', levels);
             }

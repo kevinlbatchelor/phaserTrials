@@ -40,9 +40,9 @@ export default class SceneOne extends Phaser.Scene {
             potion.disableBody(true, true);
         });
 
-        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+        this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
             if (this.player.isEntering) {
-                gotoLevel(this, chest, 'SceneTwo', levels);
+                gotoLevel(this, innerDoor, 'SceneTwo', levels);
             }
             this.metaText.setText('Leave the country? yes(Y) or no(N)');
         });

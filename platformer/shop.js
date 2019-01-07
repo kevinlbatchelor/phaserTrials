@@ -89,9 +89,9 @@ export default class Shop extends Phaser.Scene {
             }
         }
 
-        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+        this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
             if (this.player.isEntering) {
-                gotoLevel(this, chest, levels[sceneName].fromScene, levels);
+                gotoLevel(this, innerDoor, levels[sceneName].fromScene, levels);
             }
             this.metaText.setText('Leave the Alchemist shop. Enter? yes(Y) or no(N)');
         });

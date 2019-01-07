@@ -31,10 +31,11 @@ export function death(scene) {
 }
 
 export function jump(scene) {
-    if (scene.player.isJumping && scene.platformCollider) {
+    let pvgreater = scene.player.sprite.body.velocity.y < 0;
+    if (pvgreater && scene.platformCollider) {
         scene.platformCollider.destroy();
         scene.platformCollider = null;
-    } else if (!scene.player.isJumping && !scene.platformCollider) {
+    } else if (!pvgreater && !scene.platformCollider) {
         scene.platformCollider = scene.physics.world.addCollider(scene.player.sprite, scene.platformLayer);
     }
 }
@@ -64,6 +65,7 @@ export function loadAssets(scene, path) {
     scene.load.image('spike', 'assets/images/spike.png');
     scene.load.image('potion', 'assets/images/potion.png');
     scene.load.image('chest', 'assets/images/chest.png');
+    scene.load.image('innerDoor', 'assets/images/innerDoor.png');
     scene.load.image('tiles', 'assets/tilesets/tile-set-rouge-x.png');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
@@ -93,6 +95,7 @@ export function loadMapsAndSprites(scene, path) {
     new Item(scene, 'spike', 'spikeGroup', 'isSpike', 'groundLayer', { width: 32, height: 6 });
     new Item(scene, 'potion', 'potionGroup', 'isPotion');
     new Item(scene, 'chest', 'chestGroup', 'isChest');
+    new Item(scene, 'innerDoor', 'innerDoorGroup', 'isDoor');
 
     let { x, y } = spawnPoint;
 

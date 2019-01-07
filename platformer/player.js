@@ -90,11 +90,7 @@ export default class Player {
             sprite.setAccelerationX(0);
         }
 
-        // Only allow the player to jump if they are on the ground
-        if (onGround && (keys.up.isDown)) {
-            sprite.anims.play('jump', true);
-            sprite.setVelocityY(-500);
-        }
+        actualJump(sprite, keys, onGround);
 
         // Update the animation/texture based on the state of the player
         if (onGround) {
@@ -118,3 +114,11 @@ export default class Player {
         this.sprite.destroy();
     }
 }
+
+const actualJump = _.throttle((sprite, keys, onGround) => {
+    // Only allow the player to jump if they are on the ground
+    if (onGround && (keys.up.isDown)) {
+        sprite.anims.play('jump', true);
+        sprite.setVelocityY(-500);
+    }
+}, 0, { leading: true, trailing: false });
