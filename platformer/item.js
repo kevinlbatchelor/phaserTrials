@@ -1,11 +1,9 @@
 export default class Item {
     constructor(scene, spriteTag, group, tileTag, layer = 'groundLayer', size = { width: 32, height: 32 }) {
-console.log('------->spriteTag', spriteTag);
         scene[group] = scene.physics.add.staticGroup();
         scene[layer].forEachTile((tile) => {
             if (tile.properties[tileTag]) {
                 const item = scene[group].create(tile.getCenterX(), tile.getCenterY(), spriteTag);
-                console.log(item);
                 let offsetHeight = (32 - size.height);
                 let offsetWidth = (32 - size.width);
                 // The map may have items rotated in Tiled (z key), so parse out that angle to the correct body placement
