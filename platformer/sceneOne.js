@@ -38,6 +38,8 @@ export default class SceneOne extends Phaser.Scene {
             this.player.addInventory('potions');
             updateText(this);
             potion.disableBody(true, true);
+
+            this.metaText.setText('Jump and press space bar to use potion.');
         });
 
         this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
