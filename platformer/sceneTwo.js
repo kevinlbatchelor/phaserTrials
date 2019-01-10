@@ -42,6 +42,8 @@ export default class SceneTwo extends Phaser.Scene {
 
             updateText(this);
             potion.disableBody(true, true);
+
+            this.metaText.setText('Jump and press space bar to use potion.');
         });
 
         this.metaText.setText('');
