@@ -20,11 +20,13 @@ export function death(scene, enemies) {
         scene.isPlayerDead = true;
 
         const cam = scene.cameras.main;
+        scene.music.stop();
         cam.shake(100, 0.05);
         cam.fade(250, 0, 0, 0);
         cam.once('camerafadeoutcomplete', () => {
             scene.player.destroy();
             scene.scene.restart();
+            scene.musicHasStarted = false;
         });
     }
 }
@@ -76,6 +78,10 @@ export function loadAssets(scene, path) {
     scene.load.image('chest', 'assets/images/chest.png');
     scene.load.image('innerDoor', 'assets/images/innerDoor.png');
     scene.load.image('tiles', 'assets/tilesets/tile-set-rouge-x.png');
+    scene.load.audio('walk', 'assets/audio/walking.mp3');
+    scene.load.audio('jump', 'assets/audio/jump.mp3');
+    scene.load.audio('potion', 'assets/audio/item.mp3');
+    scene.load.audio('chest', 'assets/audio/chest.mp3');
     scene.load.audio('music', 'assets/audio/run-music.mp3');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
@@ -89,8 +95,12 @@ export function loadMapsAndSprites(scene, path) {
     scene.platformLayer = map.createDynamicLayer('PlatformLayer', tiles);
     scene.foregroundLayer = map.createDynamicLayer('Foreground', tiles);
     scene.foregroundLayer.setDepth(10);
-    // let sound = scene.sound.add('music');
-    // sound.play();
+
+    scene.music = scene.sound.add('music');
+    scene.walk = scene.sound.add('walk');
+    scene.jump = scene.sound.add('jump');
+    scene.potion = scene.sound.add('potion');
+    scene.chest = scene.sound.add('chest');
 
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
@@ -169,6 +179,34 @@ export const draw = _.throttle((scene, worldPoint, xVelocity) => {
     scene.player.deleteInventory('potions');
     updateText(scene);
 }, 500, { leading: true, trailing: false });
+
+export const walkingSound = _.throttle((scene) => {
+    scene.walk.volume = 1.5;
+    scene.walk.play();
+}, 320, { leading: true, trailing: false });
+
+export const jumpingSound = _.throttle((scene) => {
+    scene.jump.volume = 1.5;
+    scene.jump.play();
+}, 500, { leading: true, trailing: false });
+
+export const potionSound = _.throttle((scene) => {
+    scene.potion.play();
+}, 50, { leading: true, trailing: false });
+
+export const chestSound = _.throttle((scene) => {
+    scene.chest.volume = 3;
+    scene.chest.play();
+}, 50, { leading: true, trailing: false });
+
+export const playMusic = _.throttle((scene) => {
+    scene.music.volume = .25;
+    if (!scene.musicHasStarted && !(scene.scene.key === 'Shop')) {
+        console.log('------->scene.scene.key', scene.scene.key);
+        scene.music.play();
+    }
+    scene.musicHasStarted = true;
+}, 10, { leading: true, trailing: false });
 
 export function drawText(scene, inventory) {
     let w = scene.game.config.width - 150;

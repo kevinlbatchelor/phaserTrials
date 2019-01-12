@@ -1,6 +1,7 @@
 import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawText, inventory, gotoLevel, findFunction } from './utils.js';
 import Item from './item.js';
 import Spider from './spider.js';
+import { chestSound, potionSound } from './utils.js';
 
 const sceneName = 'SceneThree';
 
@@ -49,21 +50,24 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
-
+            potionSound(this);
             updateText(this);
             potion.disableBody(true, true);
         });
 
         this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
-            if (this.player.isEntering) {
-                gotoLevel(this, chest, 'SceneOne', levels);
-            }
-            this.metaText.setText('Leave the country. Enter? yes(Y) or no(N)');
+            this.player.addInventory('gold', 10);
+            updateText(this);
+            chestSound(this);
+            chest.disableBody(true, true);
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
+                this.music.stop();
+                this.musicHasStarted = false;
+                chestSound(this);
                 gotoLevel(this, door, 'Shop', levels);
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
@@ -72,11 +76,14 @@ export default class SceneTwo extends Phaser.Scene {
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
             this.player.addInventory('gold', 10);
             updateText(this);
+            chestSound(this);
             chest.disableBody(true, true);
         });
 
         this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
             if (this.player.isEntering) {
+                this.music.stop();
+                chestSound(this);
                 gotoLevel(this, innerDoor, 'SceneFour', levels);
             }
             this.metaText.setText('Leave the country? yes(Y) or no(N)');

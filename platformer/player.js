@@ -1,5 +1,5 @@
 import { inventory } from './utils.js';
-import { createAnimation, draw } from './utils.js';
+import { createAnimation, draw, walkingSound, jumpingSound, playMusic } from './utils.js';
 
 export default class Player {
     constructor(scene, x, y, inventory = {}) {
@@ -92,6 +92,7 @@ export default class Player {
             // we can just mirror the sprite.
             sprite.setFlipX(true);
         } else if (keys.right.isDown) {
+            playMusic(this.scene);
             sprite.setAccelerationX(acceleration);
             sprite.setFlipX(false);
         } else {
@@ -104,10 +105,12 @@ export default class Player {
         if (onGround) {
             sprite.setDrag(1000, 0);
             if (sprite.body.velocity.x !== 0) {
+                walkingSound(this.scene);
                 sprite.anims.play('player-run', true);
             } else sprite.anims.play('player-idle', true);
         } else if (this.isJumping || sprite.body.velocity.y < 0) {
             sprite.setDrag(200, 0);
+            jumpingSound(this.scene);
             sprite.anims.play('jump-up', true);
         } else if (sprite.body.velocity.y > 0) {
             sprite.setDrag(200, 0);

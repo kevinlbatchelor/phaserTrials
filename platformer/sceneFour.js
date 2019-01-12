@@ -2,6 +2,7 @@ import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawTe
 import Item from './item.js';
 import Spider from './spider.js';
 import Skeleton from './skeleton.js';
+import { chestSound, potionSound } from './utils.js';
 
 const sceneName = 'SceneFour';
 
@@ -63,21 +64,32 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
-
+            potionSound(this);
             updateText(this);
             potion.disableBody(true, true);
         });
 
         this.metaText.setText('');
-        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+        this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, chest) => {
             if (this.player.isEntering) {
-                gotoLevel(this, chest, 'SceneOne', levels);
+                this.music.stop();
+                chestSound(this);
+                gotoLevel(this, chest, 'SceneThree', levels);
             }
-            this.metaText.setText('Leave the country. Enter? yes(Y) or no(N)');
+            this.metaText.setText('Leave the city. Enter? yes(Y) or no(N)');
+        });
+        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            this.player.addInventory('gold', 10);
+            updateText(this);
+            chestSound(this);
+            chest.disableBody(true, true);
         });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
+                this.music.stop();
+                this.musicHasStarted = false;
+                chestSound(this);
                 gotoLevel(this, door, 'Shop', levels);
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
