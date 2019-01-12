@@ -34,7 +34,6 @@ export default class SceneTwo extends Phaser.Scene {
     }
 
     update(time, delta) {
-
         if (this.isPlayerDead) return;
         this.spiders.forEach((spider) => {
             spider.update();
@@ -69,6 +68,6 @@ export default class SceneTwo extends Phaser.Scene {
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });
-        death(this);
+        death(this, this.spiders);
     }
 }

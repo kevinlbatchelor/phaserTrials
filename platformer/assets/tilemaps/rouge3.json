@@ -50,18 +50,6 @@
          "objects":[
                 {
                  "height":0,
-                 "id":7,
-                 "name":"Enemy Spawn",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":4671.33333333333,
-                 "y":766.666666666667
-                }, 
-                {
-                 "height":0,
                  "id":10,
                  "name":"Player Spawn",
                  "point":true,
@@ -119,6 +107,42 @@
                  "width":0,
                  "x":2179,
                  "y":67
+                }, 
+                {
+                 "height":0,
+                 "id":15,
+                 "name":"sk4",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":4313,
+                 "y":788
+                }, 
+                {
+                 "height":0,
+                 "id":16,
+                 "name":"sk5",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":4422,
+                 "y":772
+                }, 
+                {
+                 "height":0,
+                 "id":17,
+                 "name":"sk6",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":4640,
+                 "y":760
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -151,7 +175,7 @@
          "y":0
         }],
  "nextlayerid":21,
- "nextobjectid":15,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

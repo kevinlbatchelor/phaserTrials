@@ -1,17 +1,18 @@
 import Player from './player.js';
 import Item from './item.js';
 
-export function death(scene) {
+export function death(scene, enemies) {
     if (scene.player.sprite.y > scene.groundLayer.height ||
         scene.physics.world.overlap(scene.player.sprite, scene.spikeGroup)) {
         die();
     }
 
-    if (scene.spider) {
-        if (
-            scene.physics.world.overlap(scene.player.sprite, scene.spider.sprite)) {
-            die();
-        }
+    if (enemies) {
+        enemies.forEach((enemy) => {
+            if (scene.physics.world.overlap(scene.player.sprite, enemy.sprite)) {
+                die();
+            }
+        });
     }
 
     function die() {

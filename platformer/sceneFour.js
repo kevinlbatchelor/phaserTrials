@@ -88,6 +88,7 @@ export default class SceneTwo extends Phaser.Scene {
             updateText(this);
             chest.disableBody(true, true);
         });
-        death(this);
+
+        death(this, this.skeletons);
     }
 }
