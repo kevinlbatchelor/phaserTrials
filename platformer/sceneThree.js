@@ -23,18 +23,17 @@ export default class SceneTwo extends Phaser.Scene {
 
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
-        this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
         const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
 
         if (enemyPoint) {
             this.spider2 = new Spider(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
             this.spider3 = new Spider(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
             this.spider4 = new Spider(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
-        }
 
-        this.physics.world.addCollider(this.spider2.sprite, this.groundLayer);
-        this.physics.world.addCollider(this.spider3.sprite, this.groundLayer);
-        this.physics.world.addCollider(this.spider4.sprite, this.groundLayer);
+            this.physics.world.addCollider(this.spider2.sprite, this.groundLayer);
+            this.physics.world.addCollider(this.spider3.sprite, this.groundLayer);
+            this.physics.world.addCollider(this.spider4.sprite, this.groundLayer);
+        }
     }
 
     update(time, delta) {

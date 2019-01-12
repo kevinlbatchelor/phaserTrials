@@ -1,5 +1,6 @@
 import { jump, death, loadAssets, loadMapsAndSprites, findFunction, addDrawLogic, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
 import Alchemist from './alchemist.js';
+import Spider from './spider.js';
 
 const sceneName = 'Shop';
 export default class Shop extends Phaser.Scene {
@@ -23,6 +24,11 @@ export default class Shop extends Phaser.Scene {
         this.alchemist = new Alchemist(this, spawnPoint.x, spawnPoint.y);
         this.physics.world.addCollider(this.alchemist.sprite, this.groundLayer);
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+        const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
+
+        if (enemyPoint) {
+            this.spider = new Spider(this, enemyPoint.x, enemyPoint.y);
+        }
         this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 

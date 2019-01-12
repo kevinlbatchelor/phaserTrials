@@ -1,5 +1,7 @@
 import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawText, inventory, gotoLevel, addDrawLogic } from './utils.js';
 import Item from './item.js';
+import Spider from './spider.js';
+import { findFunction } from './utils.js';
 
 const sceneName = 'SceneTwo';
 
@@ -18,10 +20,15 @@ export default class SceneTwo extends Phaser.Scene {
 
         drawText(this, inventory);
         this.isPlayerDead = false;
-        loadMapsAndSprites(this, 'rouge2');
+        let map =loadMapsAndSprites(this, 'rouge2');
 
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+
+        const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
+        if (enemyPoint) {
+            this.spider = new Spider(this, enemyPoint.x, enemyPoint.y);
+        }
         this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 

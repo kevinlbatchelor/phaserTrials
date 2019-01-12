@@ -1,5 +1,7 @@
 import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText, levels, gotoLevel, addDrawLogic } from './utils.js';
 import Item from './item.js';
+import { findFunction } from './utils.js';
+import Skeleton from './skeleton.js';
 
 const sceneName = 'SceneOne';
 export default class SceneOne extends Phaser.Scene {
@@ -16,15 +18,21 @@ export default class SceneOne extends Phaser.Scene {
         this.sceneState.visited = true;
         drawText(this, inventory);
         this.isPlayerDead = false;
-        loadMapsAndSprites(this, 'platformer-rouge');
+        let map = loadMapsAndSprites(this, 'platformer-rouge');
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+
+        const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
+
+        if (enemyPoint) {
+            this.skeleton = new Skeleton(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
+        }
+        this.physics.world.addCollider(this.skeleton.sprite, this.groundLayer);
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
-
-        this.metaText.setText('');
+        this.skeleton.update();
         this.player.update();
         jump(this);
 

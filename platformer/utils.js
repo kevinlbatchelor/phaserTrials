@@ -61,12 +61,23 @@ export function loadAssets(scene, path) {
             spacing: 2
         }
     );
+    scene.load.spritesheet(
+        'monster',
+        'assets/spritesheets/monster-sprite.png',
+        {
+            frameWidth: 32,
+            frameHeight: 32,
+            margin: 1,
+            spacing: 2
+        }
+    );
     scene.load.image('door', 'assets/images/door.png');
     scene.load.image('spike', 'assets/images/spike.png');
     scene.load.image('potion', 'assets/images/potion.png');
     scene.load.image('chest', 'assets/images/chest.png');
     scene.load.image('innerDoor', 'assets/images/innerDoor.png');
     scene.load.image('tiles', 'assets/tilesets/tile-set-rouge-x.png');
+    scene.load.audio('music', 'assets/audio/run-music.mp3');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
 
@@ -79,14 +90,11 @@ export function loadMapsAndSprites(scene, path) {
     scene.platformLayer = map.createDynamicLayer('PlatformLayer', tiles);
     scene.foregroundLayer = map.createDynamicLayer('Foreground', tiles);
     scene.foregroundLayer.setDepth(10);
+    // let sound = scene.sound.add('music');
+    // sound.play();
 
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
-    const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
-
-    if (enemyPoint) {
-        scene.spider = new Spider(scene, enemyPoint.x, enemyPoint.y);
-    }
 
     // Collide the player against the ground layer - here we are grabbing the sprite property from the player (since the Player class is not a Phaser.Sprite).
     scene.groundLayer.setCollisionByProperty({ collides: true });
