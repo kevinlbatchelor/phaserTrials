@@ -19,17 +19,12 @@ export default class SceneOne extends Phaser.Scene {
         let map = loadMapsAndSprites(this, 'platformer-rouge');
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
-
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
         jump(this);
         this.player.update();
-
-        // const pointer = this.input.activePointer;
-        // const worldPoint = pointer.positionToCamera(this.cameras.main);
-        // Add a colliding tile at the mouse position
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

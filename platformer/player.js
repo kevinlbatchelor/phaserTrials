@@ -76,7 +76,8 @@ export default class Player {
         this.isEntering = keys.y.isDown;
 
         let playerVelocity = this.sprite.body.velocity;
-        if (keys.space.isDown || keys.ctrl.isDown && this.getInventory().potions > 0) {
+
+        if ((keys.space.isDown && this.getInventory().potions > 0) || (keys.ctrl.isDown && this.getInventory().potions > 0)) {
             let pt = {
                 x: this.sprite.body.x + (playerVelocity.x / 3),
                 y: this.sprite.body.y + (62)
