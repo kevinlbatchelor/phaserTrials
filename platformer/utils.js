@@ -17,7 +17,6 @@ export function death(scene, enemies) {
 
     function die() {
         inventory.potions = 0;
-
         scene.isPlayerDead = true;
 
         const cam = scene.cameras.main;

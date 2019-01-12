@@ -38,8 +38,8 @@ export default class SceneTwo extends Phaser.Scene {
         this.spiders.forEach((spider) => {
             spider.update();
         });
-        jump(this);
         this.player.update();
+        jump(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

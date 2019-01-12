@@ -23,8 +23,8 @@ export default class SceneOne extends Phaser.Scene {
 
     update(time, delta) {
         if (this.isPlayerDead) return;
-        jump(this);
         this.player.update();
+        jump(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
