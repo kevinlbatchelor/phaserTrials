@@ -81,6 +81,7 @@ export function loadAssets(scene, path) {
     scene.load.audio('walk', 'assets/audio/walking.mp3');
     scene.load.audio('jump', 'assets/audio/jump.mp3');
     scene.load.audio('potion', 'assets/audio/item.mp3');
+    scene.load.audio('spell', 'assets/audio/spell.mp3');
     scene.load.audio('chest', 'assets/audio/chest.mp3');
     scene.load.audio('music', 'assets/audio/run-music.mp3');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
@@ -101,6 +102,7 @@ export function loadMapsAndSprites(scene, path) {
     scene.jump = scene.sound.add('jump');
     scene.potion = scene.sound.add('potion');
     scene.chest = scene.sound.add('chest');
+    scene.spell = scene.sound.add('spell');
 
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
@@ -177,6 +179,7 @@ export const draw = _.throttle((scene, worldPoint, xVelocity) => {
     tile.setCollision(true);
     tile2.setCollision(true);
     scene.player.deleteInventory('potions');
+    spellSound(scene);
     updateText(scene);
 }, 500, { leading: true, trailing: false });
 
@@ -197,6 +200,11 @@ export const potionSound = _.throttle((scene) => {
 export const chestSound = _.throttle((scene) => {
     scene.chest.volume = 3;
     scene.chest.play();
+}, 50, { leading: true, trailing: false });
+
+export const spellSound = _.throttle((scene) => {
+    scene.spell.volume = .25;
+    scene.spell.play();
 }, 50, { leading: true, trailing: false });
 
 export const playMusic = _.throttle((scene) => {
