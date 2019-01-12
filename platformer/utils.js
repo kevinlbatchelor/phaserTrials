@@ -202,7 +202,6 @@ export const chestSound = _.throttle((scene) => {
 export const playMusic = _.throttle((scene) => {
     scene.music.volume = .25;
     if (!scene.musicHasStarted && !(scene.scene.key === 'Shop')) {
-        console.log('------->scene.scene.key', scene.scene.key);
         scene.music.play();
     }
     scene.musicHasStarted = true;
