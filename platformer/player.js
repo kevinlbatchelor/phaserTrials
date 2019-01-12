@@ -1,5 +1,5 @@
 import { inventory } from './utils.js';
-import { createAnimation } from './utils.js';
+import { createAnimation, draw } from './utils.js';
 
 export default class Player {
     constructor(scene, x, y, inventory = {}) {
@@ -39,18 +39,16 @@ export default class Player {
             .setDrag(1000, 0)
             .setMaxVelocity(300, 400).setSize(16, 32).setOffset(8, 0);
 
-        // Track the arrow keys & WASD
-        const { LEFT, RIGHT, UP, W, A, D, SPACE, Y } = Phaser.Input.Keyboard.KeyCodes;
+        // Track the arrow keys
+        const { LEFT, RIGHT, UP, SPACE, Y, CTRL } = Phaser.Input.Keyboard.KeyCodes;
 
         this.keys = scene.input.keyboard.addKeys({
             left: LEFT,
             right: RIGHT,
             up: UP,
-            w: W,
-            a: A,
-            d: D,
             space: SPACE,
-            y: Y
+            y: Y,
+            ctrl: CTRL
         });
     }
 
@@ -77,13 +75,22 @@ export default class Player {
         this.isJumping = keys.up.isDown;
         this.isEntering = keys.y.isDown;
 
+        let playerVelocity = this.sprite.body.velocity;
+        if (keys.space.isDown || keys.ctrl.isDown && this.getInventory().potions > 0) {
+            let pt = {
+                x: this.sprite.body.x + (playerVelocity.x / 3),
+                y: this.sprite.body.y + (62)
+            };
+            draw(this.scene, pt, this.sprite.body.velocity.x);
+        }
+
         // Apply horizontal acceleration when left/a or right/d are applied
-        if (keys.left.isDown || keys.a.isDown) {
+        if (keys.left.isDown) {
             sprite.setAccelerationX(-acceleration);
             // No need to have a separate set of graphics for running to the left & to the right. Instead
             // we can just mirror the sprite.
             sprite.setFlipX(true);
-        } else if (keys.right.isDown || keys.d.isDown) {
+        } else if (keys.right.isDown) {
             sprite.setAccelerationX(acceleration);
             sprite.setFlipX(false);
         } else {

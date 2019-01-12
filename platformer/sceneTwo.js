@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawText, inventory, gotoLevel, addDrawLogic } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawText, inventory, gotoLevel } from './utils.js';
 import Item from './item.js';
 import Spider from './spider.js';
 import { findFunction } from './utils.js';
@@ -20,29 +20,27 @@ export default class SceneTwo extends Phaser.Scene {
 
         drawText(this, inventory);
         this.isPlayerDead = false;
-        let map =loadMapsAndSprites(this, 'rouge2');
+        let map = loadMapsAndSprites(this, 'rouge2');
 
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
+        this.spiders = [];
 
-        const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
-        if (enemyPoint) {
-            this.spider = new Spider(this, enemyPoint.x, enemyPoint.y);
+        for (let i = 0; i < 11; i++) {
+            const enemyPoint = map.findObject('Objects', findFunction('Enemy' + i));
+            this.spiders.push(new Spider(this, enemyPoint.x, enemyPoint.y));
+            this.physics.world.addCollider(this.spiders[i].sprite, this.groundLayer);
         }
-        this.physics.world.addCollider(this.spider.sprite, this.groundLayer);
     }
 
     update(time, delta) {
+
         if (this.isPlayerDead) return;
+        this.spiders.forEach((spider) => {
+            spider.update();
+        });
+        // jump(this);
         this.player.update();
-        this.spider.update();
-        jump(this);
-
-        // Add a colliding tile at the mouse position
-        const pointer = this.input.activePointer;
-        const worldPoint = pointer.positionToCamera(this.cameras.main);
-
-        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

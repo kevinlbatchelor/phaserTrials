@@ -1,5 +1,4 @@
 import Player from './player.js';
-import Spider from './spider.js';
 import Item from './item.js';
 
 export function death(scene) {
@@ -151,19 +150,9 @@ export let levels = {
     SceneOne: { visited: false },
     SceneTwo: { visited: false },
     SceneThree: { visited: false },
+    SceneFour: { visited: false },
     Shop: { visited: false }
 };
-
-export function addDrawLogic(scene) {
-    let playerVelocity = scene.player.sprite.body.velocity;
-    if (scene.player.keys.space.isDown && scene.player.getInventory().potions > 0) {
-        let pt = {
-            x: scene.player.sprite.body.x + (playerVelocity.x / 3),
-            y: scene.player.sprite.body.y + (62)
-        };
-        draw(scene, pt, scene.player.sprite.body.velocity.x);
-    }
-}
 
 export const draw = _.throttle((scene, worldPoint, xVelocity) => {
     let secondX = xVelocity < 0 ? worldPoint.x - 32 : worldPoint.x + 32;

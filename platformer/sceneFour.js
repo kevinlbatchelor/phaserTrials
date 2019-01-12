@@ -1,8 +1,9 @@
 import { jump, death, loadAssets, loadMapsAndSprites, updateText, levels, drawText, inventory, gotoLevel, findFunction } from './utils.js';
 import Item from './item.js';
 import Spider from './spider.js';
+import Skeleton from './skeleton.js';
 
-const sceneName = 'SceneThree';
+const sceneName = 'SceneFour';
 
 export default class SceneTwo extends Phaser.Scene {
     constructor() {
@@ -10,7 +11,7 @@ export default class SceneTwo extends Phaser.Scene {
     }
 
     preload() {
-        loadAssets(this, 'rouge3');
+        loadAssets(this, 'graveYard');
     }
 
     create() {
@@ -19,7 +20,7 @@ export default class SceneTwo extends Phaser.Scene {
 
         drawText(this, inventory);
         this.isPlayerDead = false;
-        let map = loadMapsAndSprites(this, 'rouge3');
+        let map = loadMapsAndSprites(this, 'graveYard');
 
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
@@ -34,12 +35,12 @@ export default class SceneTwo extends Phaser.Scene {
             this.physics.world.addCollider(this.spider3.sprite, this.groundLayer);
             this.physics.world.addCollider(this.spider4.sprite, this.groundLayer);
         }
-        this.spiders = [];
+        this.skeletons = [];
 
         for (let i = 0; i < 4; i++) {
             const enemyPoint = map.findObject('Objects', findFunction('sk' + i));
-            this.spiders.push(new Spider(this, enemyPoint.x, enemyPoint.y));
-            this.physics.world.addCollider(this.spiders[i].sprite, this.groundLayer);
+            this.skeletons.push(new Skeleton(this, enemyPoint.x, enemyPoint.y));
+            this.physics.world.addCollider(this.skeletons[i].sprite, this.groundLayer);
         }
     }
 
@@ -50,7 +51,7 @@ export default class SceneTwo extends Phaser.Scene {
         this.spider3.update();
         this.spider4.update();
 
-        this.spiders.forEach((skeleton) => {
+        this.skeletons.forEach((skeleton) => {
             skeleton.update();
         });
 
@@ -86,13 +87,6 @@ export default class SceneTwo extends Phaser.Scene {
             this.player.addInventory('gold', 10);
             updateText(this);
             chest.disableBody(true, true);
-        });
-
-        this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
-            if (this.player.isEntering) {
-                gotoLevel(this, innerDoor, 'SceneFour', levels);
-            }
-            this.metaText.setText('Leave the country? yes(Y) or no(N)');
         });
         death(this);
     }

@@ -59,18 +59,6 @@
                  "width":0,
                  "x":86,
                  "y":856
-                }, 
-                {
-                 "height":0,
-                 "id":8,
-                 "name":"Enemy Spawn",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":500,
-                 "y":852.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1371,7 +1359,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

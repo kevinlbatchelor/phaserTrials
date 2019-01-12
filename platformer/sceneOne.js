@@ -1,7 +1,5 @@
-import { jump, death, loadAssets, loadMapsAndSprites, draw, drawText, inventory, updateText, levels, gotoLevel, addDrawLogic } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, drawText, inventory, updateText, levels, gotoLevel} from './utils.js';
 import Item from './item.js';
-import { findFunction } from './utils.js';
-import Skeleton from './skeleton.js';
 
 const sceneName = 'SceneOne';
 export default class SceneOne extends Phaser.Scene {
@@ -22,25 +20,16 @@ export default class SceneOne extends Phaser.Scene {
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
 
-        const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
-
-        if (enemyPoint) {
-            this.skeleton = new Skeleton(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
-        }
-        this.physics.world.addCollider(this.skeleton.sprite, this.groundLayer);
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
-        this.skeleton.update();
-        this.player.update();
         jump(this);
+        this.player.update();
 
         // const pointer = this.input.activePointer;
         // const worldPoint = pointer.positionToCamera(this.cameras.main);
         // Add a colliding tile at the mouse position
-
-        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');

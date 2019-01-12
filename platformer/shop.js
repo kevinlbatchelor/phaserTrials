@@ -1,4 +1,4 @@
-import { jump, death, loadAssets, loadMapsAndSprites, findFunction, addDrawLogic, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
+import { jump, death, loadAssets, loadMapsAndSprites, findFunction, drawText, inventory, updateText, levels, gotoLevel } from './utils.js';
 import Alchemist from './alchemist.js';
 import Spider from './spider.js';
 
@@ -38,8 +38,6 @@ export default class Shop extends Phaser.Scene {
         this.player.update();
         this.alchemist.update();
         jump(this);
-
-        addDrawLogic(this);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
