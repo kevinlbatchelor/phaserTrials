@@ -84,6 +84,7 @@ export function loadAssets(scene, path) {
     scene.load.audio('spell', 'assets/audio/spell.mp3');
     scene.load.audio('chest', 'assets/audio/chest.mp3');
     scene.load.audio('music', 'assets/audio/run-music.mp3');
+    scene.load.audio('shopMusic', 'assets/audio/dream.mp3');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
 
@@ -103,6 +104,7 @@ export function loadMapsAndSprites(scene, path) {
     scene.potion = scene.sound.add('potion');
     scene.chest = scene.sound.add('chest');
     scene.spell = scene.sound.add('spell');
+    scene.shop = scene.sound.add('shopMusic');
 
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
     const spawnPoint = map.findObject('Objects', findFunction('Player Spawn'));
@@ -209,8 +211,11 @@ export const spellSound = _.throttle((scene) => {
 
 export const playMusic = _.throttle((scene) => {
     scene.music.volume = .25;
+    scene.shop.volume = .25;
     if (!scene.musicHasStarted && !(scene.scene.key === 'Shop')) {
         scene.music.play();
+    } else if (!scene.musicHasStarted && (scene.scene.key === 'Shop')) {
+        scene.shop.play();
     }
     scene.musicHasStarted = true;
 }, 10, { leading: true, trailing: false });
