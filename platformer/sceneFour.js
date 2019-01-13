@@ -21,7 +21,7 @@ export default class SceneTwo extends Phaser.Scene {
 
         drawText(this, inventory);
         this.isPlayerDead = false;
-        let map = loadMapsAndSprites(this, 'graveYard');
+        let map = loadMapsAndSprites(this, 'graveyard');
 
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
