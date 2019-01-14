@@ -12,7 +12,7 @@ export default class SceneTwo extends Phaser.Scene {
     }
 
     preload() {
-        loadAssets(this, 'graveYard');
+        loadAssets(this, 'graveyard');
     }
 
     create() {
