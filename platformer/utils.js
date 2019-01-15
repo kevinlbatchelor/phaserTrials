@@ -83,8 +83,8 @@ export function loadAssets(scene, path) {
     scene.load.audio('potion', 'assets/audio/item.mp3');
     scene.load.audio('spell', 'assets/audio/spell.mp3');
     scene.load.audio('chest', 'assets/audio/chest.mp3');
-    scene.load.audio('music', 'assets/audio/run-music.mp3');
-    scene.load.audio('shopMusic', 'assets/audio/dream.mp3');
+    scene.load.audio('music', 'assets/audio/dream.mp3');
+    scene.load.audio('shopMusic', 'assets/audio/run-music.mp3');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
 
@@ -186,7 +186,7 @@ export const draw = _.throttle((scene, worldPoint, xVelocity) => {
 }, 500, { leading: true, trailing: false });
 
 export const walkingSound = _.throttle((scene) => {
-    scene.walk.volume = 1.5;
+    scene.walk.volume = .75;
     scene.walk.play();
 }, 320, { leading: true, trailing: false });
 
@@ -212,9 +212,11 @@ export const spellSound = _.throttle((scene) => {
 export const playMusic = _.throttle((scene) => {
     scene.music.volume = .25;
     scene.shop.volume = .25;
-    if (!scene.musicHasStarted && !(scene.scene.key === 'Shop')) {
+    if (!scene.musicHasStarted && (scene.scene.key === 'SceneOne')) {
         scene.music.play();
     } else if (!scene.musicHasStarted && (scene.scene.key === 'Shop')) {
+        scene.shop.play();
+    } else if (!scene.musicHasStarted && (scene.scene.key === 'SceneTwo')) {
         scene.shop.play();
     }
     scene.musicHasStarted = true;
