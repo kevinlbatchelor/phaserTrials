@@ -20,7 +20,9 @@ export function death(scene, enemies) {
         scene.isPlayerDead = true;
 
         const cam = scene.cameras.main;
+        scene.dream2.stop();
         scene.music.stop();
+        scene.shop.stop();
         cam.shake(100, 0.05);
         cam.fade(250, 0, 0, 0);
         cam.once('camerafadeoutcomplete', () => {
@@ -84,6 +86,7 @@ export function loadAssets(scene, path) {
     scene.load.audio('spell', 'assets/audio/spell.mp3');
     scene.load.audio('chest', 'assets/audio/chest.mp3');
     scene.load.audio('music', 'assets/audio/dream.mp3');
+    scene.load.audio('dream2', 'assets/audio/dream2.mp3');
     scene.load.audio('shopMusic', 'assets/audio/run-music.mp3');
     scene.load.tilemapTiledJSON(path, 'assets/tilemaps/' + path + '.json');
 }
@@ -99,6 +102,7 @@ export function loadMapsAndSprites(scene, path) {
     scene.foregroundLayer.setDepth(10);
 
     scene.music = scene.sound.add('music');
+    scene.dream2 = scene.sound.add('dream2');
     scene.walk = scene.sound.add('walk');
     scene.jump = scene.sound.add('jump');
     scene.potion = scene.sound.add('potion');
@@ -218,6 +222,8 @@ export const playMusic = _.throttle((scene) => {
         scene.shop.play();
     } else if (!scene.musicHasStarted && (scene.scene.key === 'SceneTwo')) {
         scene.shop.play();
+    } else if (!scene.musicHasStarted && (scene.scene.key === 'SceneThree')) {
+        scene.dream2.play();
     }
     scene.musicHasStarted = true;
 }, 10, { leading: true, trailing: false });
