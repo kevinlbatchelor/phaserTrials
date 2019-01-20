@@ -165,7 +165,10 @@ export let inventory = {
 };
 
 export let levels = {
-    SceneOne: { visited: false },
+    SceneOne: {
+        visited: false,
+        enemies: []
+    },
     SceneTwo: { visited: false },
     SceneThree: { visited: false },
     SceneFour: { visited: false },

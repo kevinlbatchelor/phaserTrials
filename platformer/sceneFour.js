@@ -63,6 +63,7 @@ export default class SceneTwo extends Phaser.Scene {
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
+            _.find(this.sceneState['potionGroup'], { destroyed: false, tag: potion.tag }).destroyed = true;
             this.player.addInventory('potions');
             potionSound(this);
             updateText(this);
@@ -79,6 +80,7 @@ export default class SceneTwo extends Phaser.Scene {
             this.metaText.setText('Leave the city. Enter? yes(Y) or no(N)');
         });
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            _.find(this.sceneState['chestGroup'], { destroyed: false, tag: chest.tag }).destroyed = true;
             this.player.addInventory('gold', 10);
             updateText(this);
             chestSound(this);
@@ -93,12 +95,6 @@ export default class SceneTwo extends Phaser.Scene {
                 gotoLevel(this, door, 'Shop', levels);
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
-        });
-
-        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
-            this.player.addInventory('gold', 10);
-            updateText(this);
-            chest.disableBody(true, true);
         });
 
         death(this, this.skeletons);

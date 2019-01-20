@@ -94,6 +94,7 @@ export default class Shop extends Phaser.Scene {
         }
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            _.find(this.sceneState['chestGroup'], { destroyed: false, tag: chest.tag }).destroyed = true;
             this.player.addInventory('gold', 10);
             updateText(this);
             chest.disableBody(true, true);

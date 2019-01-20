@@ -49,6 +49,8 @@ export default class SceneTwo extends Phaser.Scene {
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
+
+            _.find(this.sceneState['potionGroup'], { destroyed: false, tag: potion.tag }).destroyed = true;
             this.player.addInventory('potions');
             potionSound(this);
             updateText(this);
@@ -56,12 +58,6 @@ export default class SceneTwo extends Phaser.Scene {
         });
 
         this.metaText.setText('');
-        this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
-            this.player.addInventory('gold', 10);
-            updateText(this);
-            chestSound(this);
-            chest.disableBody(true, true);
-        });
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
@@ -74,6 +70,7 @@ export default class SceneTwo extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            _.find(this.sceneState['chestGroup'], { destroyed: false, tag: chest.tag }).destroyed = true;
             this.player.addInventory('gold', 10);
             updateText(this);
             chestSound(this);

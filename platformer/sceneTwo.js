@@ -43,6 +43,8 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
+
+            _.find(this.sceneState['potionGroup'], { destroyed: false, tag: potion.tag }).destroyed = true;
             potionSound(this);
             updateText(this);
             potion.disableBody(true, true);
@@ -59,6 +61,7 @@ export default class SceneTwo extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            _.find(this.sceneState['chestGroup'], { destroyed: false, tag: chest.tag }).destroyed = true;
             this.player.addInventory('gold', 10);
             updateText(this);
             chestSound(this);
