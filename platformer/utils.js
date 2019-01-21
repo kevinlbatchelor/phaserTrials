@@ -16,9 +16,7 @@ export function death(scene, enemies) {
     }
 
     function die() {
-        inventory.potions = 0;
         scene.isPlayerDead = true;
-
         const cam = scene.cameras.main;
         scene.dream2.stop();
         scene.music.stop();
@@ -159,9 +157,9 @@ export function findFunction(name) {
 
 export let inventory = {
     potions: 0,
-    gold: 40,
+    gold: 0,
     weapons: [],
-    spells: []
+    earthSpell: false
 };
 
 export let levels = {
@@ -232,7 +230,7 @@ export const playMusic = _.throttle((scene) => {
 }, 10, { leading: true, trailing: false });
 
 export function drawText(scene, inventory) {
-    let w = scene.game.config.width - 150;
+    let w = scene.game.config.width - 200;
     scene.metaText = scene.add.text(20, 40, '', {
         font: '18px monospace',
         fill: '#ffffff',
@@ -258,11 +256,18 @@ export function drawText(scene, inventory) {
         fill: '#ffffff',
         padding: { x: 0, y: 0 }
     }).setScrollFactor(0).setDepth(30);
+
+    scene.spells = scene.add.text(w, 50, inventory.earthSpell ? 'Spells: Earth Spell': 'Spells: None', {
+        font: '18px monospace',
+        fill: '#ffffff',
+        padding: { x: 0, y: 0 }
+    }).setScrollFactor(0).setDepth(30);
 }
 
 export function updateText(scene) {
     scene.potions.setText('Potions:' + _.toString(scene.player.getInventory().potions));
     scene.gold.setText('Gold:' + _.toString(scene.player.getInventory().gold));
+    scene.spells.setText(inventory.earthSpell ? 'Spells: Earth Spell': 'Spells: None');
 }
 
 export function gotoLevel(scene, door, gotoScene, levels) {

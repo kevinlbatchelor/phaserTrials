@@ -58,16 +58,18 @@ export default class Shop extends Phaser.Scene {
             this.script = 0;
         }
 
-        if (this.alchemist.keys.b.isDown) {
-            if (inventory.gold < 21) {
-                this.script = 1;
-            }
+        if (this.alchemist.keys.b.isDown && inventory.gold < 20) {
+            this.script = 1;
         }
 
-        if (this.alchemist.keys.b.isDown) {
-            if (inventory.gold > 20) {
-                this.script = 2;
-            }
+        if (this.alchemist.keys.b.isDown && inventory.gold > 19) {
+            this.script = 2;
+        }
+
+        if (this.alchemist.keys.e.isDown && inventory.gold > 99) {
+            inventory.earthSpell = true;
+            inventory.gold = inventory.gold - 100;
+            this.script = 5;
         }
 
         if (this.alchemist.keys.p.isDown && inventory.gold > 19) {

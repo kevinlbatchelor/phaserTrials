@@ -6,7 +6,7 @@ export default class Alchemist {
         this.scripts = [
             'I see you are an alchemist, Are you here to buy(B) or sell(S)?',
             'You haven\'t enough gold.',
-            'Buy potion. (P) -20g',
+            'Buy Earth Spell (E) -100g or Potion (P) -20g.',
             'Sell potion. (X) +10g',
             'You haven\'t got any thing that I need.',
             'Thank\'s for doing business'
@@ -31,13 +31,14 @@ export default class Alchemist {
             .setDrag(1000, 0)
             .setMaxVelocity(20, 500);
 
-        const { B, S, X, P } = Phaser.Input.Keyboard.KeyCodes;
+        const { B, S, X, P, E } = Phaser.Input.Keyboard.KeyCodes;
 
         this.keys = scene.input.keyboard.addKeys({
             b: B,
             s: S,
             x: X,
-            p: P
+            p: P,
+            e: E
         });
     }
 
