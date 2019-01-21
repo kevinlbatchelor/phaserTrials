@@ -77,6 +77,7 @@ export default class SceneTwo extends Phaser.Scene {
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });
+        updateText(this);
         death(this, this.spiders);
     }
 }

@@ -1,6 +1,8 @@
 import Player from './player.js';
 import Item from './item.js';
 
+const now = moment();
+
 export function death(scene, enemies) {
     if (scene.player.sprite.y > scene.groundLayer.height ||
         scene.physics.world.overlap(scene.player.sprite, scene.spikeGroup)) {
@@ -245,19 +247,25 @@ export function drawText(scene, inventory) {
         }
     }).setScrollFactor(0).setDepth(30).setShadow(3, 3, 'rgb(0, 0, 0)', 0);
 
-    scene.gold = scene.add.text(w, 10, 'Gold:' + inventory.gold, {
+    scene.time = scene.add.text(w, 10, 'Time: 00:00:00', {
         font: '18px monospace',
         fill: '#ffffff',
         padding: { x: 0, y: 0 }
     }).setScrollFactor(0).setDepth(30);
 
-    scene.potions = scene.add.text(w, 30, 'Potions:' + inventory.potions, {
+    scene.gold = scene.add.text(w, 30, 'Gold:' + inventory.gold, {
         font: '18px monospace',
         fill: '#ffffff',
         padding: { x: 0, y: 0 }
     }).setScrollFactor(0).setDepth(30);
 
-    scene.spells = scene.add.text(w, 50, inventory.earthSpell ? 'Spells: Earth Spell': 'Spells: None', {
+    scene.potions = scene.add.text(w, 50, 'Mana Potions:' + inventory.potions, {
+        font: '18px monospace',
+        fill: '#ffffff',
+        padding: { x: 0, y: 0 }
+    }).setScrollFactor(0).setDepth(30);
+
+    scene.spells = scene.add.text(w, 70, inventory.earthSpell ? 'Spells:Earth Spell' : 'Spells:None', {
         font: '18px monospace',
         fill: '#ffffff',
         padding: { x: 0, y: 0 }
@@ -265,9 +273,11 @@ export function drawText(scene, inventory) {
 }
 
 export function updateText(scene) {
-    scene.potions.setText('Potions:' + _.toString(scene.player.getInventory().potions));
+    let diff = now.diff(moment());
+    scene.time.setText('Time:' + moment(diff, 'SSS').format('SSS'));
+    scene.potions.setText('Mana Potions:' + _.toString(scene.player.getInventory().potions));
     scene.gold.setText('Gold:' + _.toString(scene.player.getInventory().gold));
-    scene.spells.setText(inventory.earthSpell ? 'Spells: Earth Spell': 'Spells: None');
+    scene.spells.setText(inventory.earthSpell ? 'Spells:Earth Spell' : 'Spells:None');
 }
 
 export function gotoLevel(scene, door, gotoScene, levels) {

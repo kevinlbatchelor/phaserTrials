@@ -54,11 +54,12 @@ export default class SceneOne extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
             this.player.addInventory('gold', 10);
-            updateText(this);
 
             chestSound(this);
             chest.disableBody(true, true);
         });
+        updateText(this);
+
         death(this);
     }
 }

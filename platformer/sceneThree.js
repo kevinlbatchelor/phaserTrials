@@ -61,7 +61,7 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
-                this.music.stop();
+                this.dream2.stop();
                 this.musicHasStarted = false;
                 chestSound(this);
                 gotoLevel(this, door, 'Shop', levels);
@@ -79,7 +79,7 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, innerDoor) => {
             if (this.player.isEntering) {
-                this.music.stop();
+                this.dream2.stop();
                 chestSound(this);
                 gotoLevel(this, innerDoor, 'SceneFour', levels);
             }

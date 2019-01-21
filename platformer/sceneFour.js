@@ -73,7 +73,7 @@ export default class SceneTwo extends Phaser.Scene {
         this.metaText.setText('');
         this.physics.world.overlap(this.player.sprite, this.innerDoorGroup, (player, chest) => {
             if (this.player.isEntering) {
-                this.music.stop();
+                this.dream2.stop();
                 chestSound(this);
                 gotoLevel(this, chest, 'SceneThree', levels);
             }
@@ -89,14 +89,14 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.doorGroup, (player, door) => {
             if (this.player.isEntering) {
-                this.music.stop();
+                this.dream2.stop();
                 this.musicHasStarted = false;
                 chestSound(this);
                 gotoLevel(this, door, 'Shop', levels);
             }
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });
-
+        updateText(this);
         death(this, this.skeletons);
     }
 }
