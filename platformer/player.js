@@ -72,7 +72,7 @@ export default class Player {
         const onGround = sprite.body.blocked.down;
         const acceleration = onGround ? 600 : 200;
 
-        this.isJumping = keys.up.isDown;
+        this.isJumping = keys.up.isDown && onGround;
         this.isEntering = keys.y.isDown;
 
         let playerVelocity = this.sprite.body.velocity;
