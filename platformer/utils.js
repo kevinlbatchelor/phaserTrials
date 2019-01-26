@@ -1,7 +1,7 @@
 import Player from './player.js';
 import Item from './item.js';
 
-const now = moment();
+let timeText = 'Time:00:00';
 
 export function death(scene, enemies) {
     if (scene.player.sprite.y > scene.groundLayer.height ||
@@ -247,7 +247,7 @@ export function drawText(scene, inventory) {
         }
     }).setScrollFactor(0).setDepth(30).setShadow(3, 3, 'rgb(0, 0, 0)', 0);
 
-    scene.time = scene.add.text(w, 10, 'Time: 00:00:00', {
+    scene.time = scene.add.text(w, 10, timeText, {
         font: '18px monospace',
         fill: '#ffffff',
         padding: { x: 0, y: 0 }
@@ -273,9 +273,8 @@ export function drawText(scene, inventory) {
 }
 
 export function updateText(scene) {
-    let diff = now.diff(moment());
-    scene.time.setText('Time:' + moment(diff, 'SSS').format('SSS'));
     scene.potions.setText('Mana Potions:' + _.toString(scene.player.getInventory().potions));
+    scene.time.setText(timeText);
     scene.gold.setText('Gold:' + _.toString(scene.player.getInventory().gold));
     scene.spells.setText(inventory.earthSpell ? 'Spells:Earth Spell' : 'Spells:None');
 }
@@ -298,3 +297,22 @@ export function createAnimation(scene, animationObj) {
         anims.create(animationObj);
     }
 }
+
+function timer(duration) {
+    let timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        timeText = 'Time:' + minutes + ':' + seconds;
+
+        if (++timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+timer(0);
