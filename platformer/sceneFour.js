@@ -63,7 +63,6 @@ export default class SceneTwo extends Phaser.Scene {
         const worldPoint = pointer.positionToCamera(this.cameras.main);
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
-            _.find(this.sceneState['potionGroup'], { destroyed: false, tag: potion.tag }).destroyed = true;
             this.player.addInventory('potions');
             potionSound(this);
             updateText(this);

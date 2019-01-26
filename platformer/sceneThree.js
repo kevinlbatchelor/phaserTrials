@@ -50,7 +50,6 @@ export default class SceneTwo extends Phaser.Scene {
 
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
 
-            _.find(this.sceneState['potionGroup'], { destroyed: false, tag: potion.tag }).destroyed = true;
             this.player.addInventory('potions');
             potionSound(this);
             updateText(this);
@@ -70,6 +69,7 @@ export default class SceneTwo extends Phaser.Scene {
         });
 
         this.physics.world.overlap(this.player.sprite, this.chestGroup, (player, chest) => {
+            //permanently remove gold so it does not respawn after death
             _.find(this.sceneState['chestGroup'], { destroyed: false, tag: chest.tag }).destroyed = true;
             this.player.addInventory('gold', 10);
             updateText(this);
