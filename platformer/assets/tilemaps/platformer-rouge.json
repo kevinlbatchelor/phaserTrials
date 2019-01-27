@@ -58,7 +58,19 @@
                  "visible":true,
                  "width":0,
                  "x":86,
-                 "y":856
+                 "y":636
+                }, 
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"bat0",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":446,
+                 "y":634.33
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -91,7 +103,7 @@
          "y":0
         }],
  "nextlayerid":31,
- "nextobjectid":9,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

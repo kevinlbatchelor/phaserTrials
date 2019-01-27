@@ -60,7 +60,7 @@ export default class Skeleton {
             } else sprite.anims.play('skeleton-idle', true);
         } else {
             sprite.anims.stop();
-            sprite.setTexture('monster', 10);
+            sprite.setTexture('monster', 0);
         }
     }
 

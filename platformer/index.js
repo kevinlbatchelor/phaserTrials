@@ -19,7 +19,7 @@ window.onload = function () {
                 gravity: { y: 1000 }
             }
         },
-        scene: [ SceneTwo, SceneThree, Shop, SceneFour]
+        scene: [SceneOne, SceneTwo, SceneThree, Shop, SceneFour]
     };
 
     new Phaser.Game(config);
