@@ -25,11 +25,12 @@ export default class Bat {
     }
 
     update() {
-
         this.turn = (this.scene.player.sprite.x - this.sprite.x > 0);
+        this.alt = (this.scene.player.sprite.y - this.sprite.y > 0);
         const sprite = this.sprite;
         sprite.body.setGravityY(-1000);
         let acceleration = 500;
+        let accelerationY = 500;
         sprite.anims.play('bat-run', true);
         // Apply horizontal acceleration when left/a or right/d are applied
         if (!this.turn) {
@@ -41,6 +42,12 @@ export default class Bat {
             sprite.setFlipX(false);
         } else {
             sprite.setAccelerationX(0);
+        }
+
+        if(this.alt){
+            sprite.setAccelerationY(accelerationY)
+        } else if(!this.alt){
+            sprite.setAccelerationY(-accelerationY)
         }
     }
 
