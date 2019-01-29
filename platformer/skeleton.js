@@ -1,4 +1,4 @@
-import {createAnimation} from './utils.js'
+import { createAnimation } from './utils.js';
 
 export default class Skeleton {
     constructor(scene, x, y) {
@@ -11,7 +11,7 @@ export default class Skeleton {
             frameRate: 3,
             repeat: -1
         });
-        createAnimation(this,{
+        createAnimation(this, {
             key: 'skeleton-run',
             frames: anims.generateFrameNumbers('monster', { start: 0, end: 3 }),
             frameRate: 6,
@@ -20,14 +20,14 @@ export default class Skeleton {
 
         this.sprite = scene.physics.add
             .sprite(x, y, 'skeleton', 0)
-            .setDrag(1000, 0)
-            .setMaxVelocity(40, 1000).setSize(32, 10).setOffset(0, 22);
+            .setDrag(7000, 0)
+            .setMaxVelocity(50, 5000).setSize(32, 10).setOffset(0, 22);
 
 
         this.turn = true;
         const randomBoolean = Math.random() >= 0.5;
         if (!randomBoolean) {
-            this.turn = false
+            this.turn = false;
         }
     }
 
@@ -36,28 +36,37 @@ export default class Skeleton {
         const onGround = sprite.body.blocked.down;
         let acceleration = onGround ? 40 : 200;
 
-        // Apply horizontal acceleration when left/a or right/d are applied
-        if (!this.turn) {
-            this.turn = sprite.body.blocked.left;
+        if (Math.abs(this.scene.player.sprite.x - this.sprite.x) < 100) {
 
-            sprite.setAccelerationX(-acceleration);
-            // No need to have a separate set of graphics for running to the left & to the right. Instead
-            // we can just mirror the sprite.
-            sprite.setFlipX(true);
-        } else if (this.turn) {
-            this.turn = !sprite.body.blocked.right;
-            sprite.setAccelerationX(acceleration);
-
-            sprite.setFlipX(false);
-
+            this.turn = (this.scene.player.sprite.x - this.sprite.x > 0);
+            if (!this.turn) {
+                sprite.setAccelerationX(-acceleration);
+                sprite.setFlipX(true);
+            } else if (this.turn) {
+                sprite.setAccelerationX(acceleration);
+                sprite.setFlipX(false);
+            } else {
+                sprite.setAccelerationX(0);
+            }
         } else {
-            sprite.setAccelerationX(0);
+            if (!this.turn) {
+                this.turn = sprite.body.blocked.left;
+                sprite.setAccelerationX(-acceleration);
+                sprite.setFlipX(true);
+            } else if (this.turn) {
+                this.turn = !sprite.body.blocked.right;
+                sprite.setAccelerationX(acceleration);
+
+                sprite.setFlipX(false);
+
+            } else {
+                sprite.setAccelerationX(0);
+            }
         }
 
         if (onGround) {
-            if (sprite.body.velocity.x !== 0) {
-                sprite.anims.play('skeleton-run', true);
-            } else sprite.anims.play('skeleton-idle', true);
+            sprite.anims.play('skeleton-run', true);
+
         } else {
             sprite.anims.stop();
             sprite.setTexture('monster', 0);

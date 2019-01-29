@@ -25,20 +25,15 @@ export default class SceneTwo extends Phaser.Scene {
 
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
-        const enemyPoint = map.findObject('Objects', findFunction('Enemy Spawn'));
 
-        if (enemyPoint) {
-            this.spider2 = new Spider(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
-            this.spider3 = new Spider(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
-            this.spider4 = new Spider(this, enemyPoint.x + _.random(-200, 200), enemyPoint.y);
-
-            this.physics.world.addCollider(this.spider2.sprite, this.groundLayer);
-            this.physics.world.addCollider(this.spider3.sprite, this.groundLayer);
-            this.physics.world.addCollider(this.spider4.sprite, this.groundLayer);
+        this.spiders = [];
+        for (let i = 0; i < 6; i++) {
+            const enemyPoint = map.findObject('Objects', findFunction('sp' + i));
+            this.spiders.push(new Spider(this, enemyPoint.x, enemyPoint.y));
+            this.physics.world.addCollider(this.spiders[i].sprite, this.groundLayer);
         }
         this.skeletons = [];
-
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 14; i++) {
             const enemyPoint = map.findObject('Objects', findFunction('sk' + i));
             this.skeletons.push(new Skeleton(this, enemyPoint.x, enemyPoint.y));
             this.physics.world.addCollider(this.skeletons[i].sprite, this.groundLayer);
@@ -48,12 +43,13 @@ export default class SceneTwo extends Phaser.Scene {
     update(time, delta) {
         if (this.isPlayerDead) return;
         this.player.update();
-        this.spider2.update();
-        this.spider3.update();
-        this.spider4.update();
 
         this.skeletons.forEach((skeleton) => {
             skeleton.update();
+        });
+
+        this.spiders.forEach((spider) => {
+            spider.update();
         });
 
         jump(this);
@@ -96,6 +92,6 @@ export default class SceneTwo extends Phaser.Scene {
             this.metaText.setText('Alchemist shop. Enter? yes(Y) or no(N)');
         });
         updateText(this);
-        death(this, this.skeletons);
+        death(this, [...this.skeletons, ...this.spiders]);
     }
 }

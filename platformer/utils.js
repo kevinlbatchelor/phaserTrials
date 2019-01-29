@@ -161,7 +161,7 @@ export let inventory = {
     potions: 0,
     gold: 0,
     weapons: [],
-    earthSpell: false
+    earthSpell: true
 };
 
 export let levels = {
@@ -223,7 +223,7 @@ export const playMusic = _.throttle((scene) => {
         scene.music.play();
     } else if (!scene.musicHasStarted && (scene.scene.key === 'Shop')) {
         scene.shop.play();
-    } else if (!scene.musicHasStarted && (scene.scene.key === 'SceneTwo')) {
+    } else if (!scene.musicHasStarted && (scene.scene.key === 'SceneTwo'|| scene.scene.key === 'SceneFour')) {
         scene.shop.play();
     } else if (!scene.musicHasStarted && (scene.scene.key === 'SceneThree')) {
         scene.dream2.play();

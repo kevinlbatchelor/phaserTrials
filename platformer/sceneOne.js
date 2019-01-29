@@ -73,6 +73,6 @@ export default class SceneOne extends Phaser.Scene {
         });
         updateText(this);
 
-        death(this);
+        death(this, this.bats);
     }
 }
