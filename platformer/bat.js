@@ -21,7 +21,7 @@ export default class Bat {
         this.sprite = scene.physics.add
             .sprite(x, y, 'bat', 0)
             .setDrag(4, 0)
-            .setMaxVelocity(200, 1000).setSize(32, 10).setOffset(0, 22);
+            .setMaxVelocity(200, 500).setSize(32, 10).setOffset(0, 22);
     }
 
     update() {
@@ -30,7 +30,7 @@ export default class Bat {
         const sprite = this.sprite;
         sprite.body.setGravityY(-1000);
         let acceleration = 500;
-        let accelerationY = 500;
+        let accelerationY = 200;
         sprite.anims.play('bat-run', true);
         // Apply horizontal acceleration when left/a or right/d are applied
         if (!this.turn) {

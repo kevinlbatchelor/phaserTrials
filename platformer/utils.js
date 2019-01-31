@@ -161,7 +161,7 @@ export let inventory = {
     potions: 0,
     gold: 0,
     weapons: [],
-    earthSpell: true
+    earthSpell: false
 };
 
 export let levels = {
@@ -172,7 +172,8 @@ export let levels = {
     SceneTwo: { visited: false },
     SceneThree: { visited: false },
     SceneFour: { visited: false },
-    Shop: { visited: false }
+    Shop: { visited: false },
+    BatHouse: { visited: false }
 };
 
 export const draw = _.throttle((scene, worldPoint, xVelocity) => {
@@ -212,7 +213,7 @@ export const chestSound = _.throttle((scene) => {
 }, 50, { leading: true, trailing: false });
 
 export const spellSound = _.throttle((scene) => {
-    scene.spell.volume = .25;
+    scene.spell.volume = .5;
     scene.spell.play();
 }, 50, { leading: true, trailing: false });
 
@@ -245,7 +246,7 @@ export function drawText(scene, inventory) {
             stroke: false,
             fill: false
         }
-    }).setScrollFactor(0).setDepth(30).setShadow(3, 3, 'rgb(0, 0, 0)', 0);
+    }).setScrollFactor(0).setDepth(30).setShadow(1, 1, 'rgb(0, 0, 0)', 0);
 
     scene.time = scene.add.text(w, 10, timeText, {
         font: '18px monospace',

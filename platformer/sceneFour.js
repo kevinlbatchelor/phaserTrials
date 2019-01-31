@@ -70,7 +70,7 @@ export default class SceneTwo extends Phaser.Scene {
             if (this.player.isEntering) {
                 this.dream2.stop();
                 chestSound(this);
-                gotoLevel(this, chest, 'SceneThree', levels);
+                gotoLevel(this, chest, 'BatHouse', levels);
             }
             this.metaText.setText('Leave the city. Enter? yes(Y) or no(N)');
         });

@@ -1,7 +1,5 @@
 import { jump, death, loadAssets, loadMapsAndSprites, drawText, inventory, updateText, levels, gotoLevel, potionSound, chestSound } from './utils.js';
 import Item from './item.js';
-import Bat from './bat.js';
-import { findFunction } from './utils.js';
 
 const sceneName = 'SceneOne';
 export default class SceneOne extends Phaser.Scene {
@@ -21,24 +19,12 @@ export default class SceneOne extends Phaser.Scene {
         let map = loadMapsAndSprites(this, 'platformer-rouge');
         new Item(this, 'door', 'doorGroup', 'isDoor', 'doorLayer');
         this.physics.world.addCollider(this.player.sprite, this.groundLayer);
-
-        this.bats = [];
-
-        for (let i = 0; i < 1; i++) {
-            const enemyPoint = map.findObject('Objects', findFunction('bat' + i));
-            this.bats.push(new Bat(this, enemyPoint.x, enemyPoint.y));
-            this.physics.world.addCollider(this.bats[i].sprite, this.groundLayer);
-        }
     }
 
     update(time, delta) {
         if (this.isPlayerDead) return;
         this.player.update();
         jump(this);
-        this.bats.forEach((bat) => {
-            bat.update();
-        });
-
         this.physics.world.overlap(this.player.sprite, this.potionGroup, (player, potion) => {
             this.player.addInventory('potions');
             updateText(this);
@@ -73,6 +59,6 @@ export default class SceneOne extends Phaser.Scene {
         });
         updateText(this);
 
-        death(this, this.bats);
+        death(this);
     }
 }

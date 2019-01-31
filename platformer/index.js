@@ -3,6 +3,7 @@ import Shop from './shop.js';
 import SceneOne from './sceneOne.js';
 import SceneThree from './sceneThree.js';
 import SceneFour from './sceneFour.js';
+import BatHouse from './batHouse.js';
 
 window.onload = function () {
     let config = {
@@ -19,7 +20,7 @@ window.onload = function () {
                 gravity: { y: 1000 }
             }
         },
-        scene: [SceneFour]
+        scene: [SceneOne, SceneTwo, SceneThree, Shop, SceneFour, BatHouse]
     };
 
     new Phaser.Game(config);
