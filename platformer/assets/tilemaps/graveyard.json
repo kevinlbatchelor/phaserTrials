@@ -309,20 +309,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":25243,
+                 "x":200,
                  "y":769.5
-                }, 
-                {
-                 "height":0,
-                 "id":33,
-                 "name":"",
-                 "point":true,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":25116,
-                 "y":329
                 }],
          "opacity":1,
          "type":"objectgroup",
